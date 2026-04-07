@@ -1,0 +1,42 @@
+# Compiled class files
+target/
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+*.suo
+*.user
+
+# Build directories
+build_mdflib/
+
+# Build dependencies (large files)
+mdflib_src/
+vcpkg/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Maven
+*.log
+
+# Temp files
+*.tmp
+*.bak
+
+# Test generated mf4 files
+*.mf4
+
+# Maven wrapper settings
+.mvn/
