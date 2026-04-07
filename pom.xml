@@ -41,6 +41,7 @@
                 <configuration>
                     <argLine>-Djna.library.path="${project.basedir}/src/main/resources/native/win32-x86-64"</argLine>
                     <useSystemClassLoader>false</useSystemClassLoader>
+                    <useFile>false</useFile>
                 </configuration>
             </plugin>
             <plugin>

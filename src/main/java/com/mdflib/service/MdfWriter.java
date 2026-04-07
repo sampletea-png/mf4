@@ -74,7 +74,7 @@ public class MdfWriter implements Closeable {
 
     public void setCompressData(boolean compress) {
         checkOpen();
-        MdfLibraryNative.INSTANCE.MdfWriterSetCompressData(writerPtr, compress);
+        MdfLibraryNative.INSTANCE.MdfWriterSetCompressData(writerPtr, compress ? (byte) 1 : (byte) 0);
     }
 
     public Pointer createDataGroup() {
@@ -130,16 +130,20 @@ public class MdfWriter implements Closeable {
         MdfLibraryNative.INSTANCE.MdfChannelSetBitCount(channel, bits);
     }
 
+    public void setChannelDataBytes(Pointer channel, long bytes) {
+        MdfLibraryNative.INSTANCE.MdfChannelSetDataBytes(channel, bytes);
+    }
+
     public void setChannelValueAsDouble(Pointer channel, double value) {
-        MdfLibraryNative.INSTANCE.MdfChannelSetChannelValueAsFloat(channel, value, (byte) 1, 0);
+        MdfLibraryNative.INSTANCE.MdfChannelSetChannelValueAsFloat(channel, value, 1, 0);
     }
 
     public void setChannelValueAsLong(Pointer channel, long value) {
-        MdfLibraryNative.INSTANCE.MdfChannelSetChannelValueAsSigned(channel, value, (byte) 1, 0);
+        MdfLibraryNative.INSTANCE.MdfChannelSetChannelValueAsSigned(channel, value, 1, 0);
     }
 
     public void setChannelValueAsString(Pointer channel, String value) {
-        MdfLibraryNative.INSTANCE.MdfChannelSetChannelValueAsString(channel, value.getBytes(), (byte) 1, 0);
+        MdfLibraryNative.INSTANCE.MdfChannelSetChannelValueAsString(channel, value.getBytes(), 1, 0);
     }
 
     public boolean initMeasurement() {

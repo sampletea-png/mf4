@@ -6,7 +6,6 @@ import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.DoubleByReference;
 import com.sun.jna.ptr.LongByReference;
-import com.sun.jna.ptr.IntByReference;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -42,7 +41,7 @@ public interface MdfLibraryNative extends Library {
         }
     }
 
-    // MdfReader
+    // ===== MdfReader =====
     Pointer MdfReaderInit(String filename);
     void MdfReaderUnInit(Pointer reader);
     boolean MdfReaderIsOk(Pointer reader);
@@ -56,20 +55,20 @@ public interface MdfLibraryNative extends Library {
     boolean MdfReaderReadEverythingButData(Pointer reader);
     boolean MdfReaderReadData(Pointer reader, Pointer group);
 
-    // MdfWriter
+    // ===== MdfWriter =====
     Pointer MdfWriterInit(int type, String filename);
     void MdfWriterUnInit(Pointer writer);
     Pointer MdfWriterGetFile(Pointer writer);
     Pointer MdfWriterGetHeader(Pointer writer);
-    boolean MdfWriterInitMeasurement(Pointer writer);
+    void MdfWriterSetCompressData(Pointer writer, byte compress);
     Pointer MdfWriterCreateDataGroup(Pointer writer);
+    boolean MdfWriterInitMeasurement(Pointer writer);
     void MdfWriterSaveSample(Pointer writer, Pointer group, long time);
     void MdfWriterStartMeasurement(Pointer writer, long start_time);
     void MdfWriterStopMeasurement(Pointer writer, long stop_time);
     boolean MdfWriterFinalizeMeasurement(Pointer writer);
-    void MdfWriterSetCompressData(Pointer writer, boolean compress);
 
-    // MdfFile - size_t returns mapped to long
+    // ===== MdfFile =====
     long MdfFileGetName(Pointer file, byte[] name);
     void MdfFileSetName(Pointer file, String name);
     long MdfFileGetFileName(Pointer file, byte[] filename);
@@ -78,9 +77,8 @@ public interface MdfLibraryNative extends Library {
     int MdfFileGetMinorVersion(Pointer file);
     boolean MdfFileGetIsMdf4(Pointer file);
     long MdfFileGetDataGroups(Pointer file, Pointer[] dataGroups);
-    Pointer MdfFileCreateDataGroup(Pointer file);
 
-    // MdfHeader
+    // ===== MdfHeader =====
     long MdfHeaderGetAuthor(Pointer header, byte[] author);
     void MdfHeaderSetAuthor(Pointer header, String author);
     long MdfHeaderGetDescription(Pointer header, byte[] desc);
@@ -97,11 +95,12 @@ public interface MdfLibraryNative extends Library {
     Pointer MdfHeaderCreateFileHistory(Pointer header);
     Pointer MdfHeaderGetLastDataGroup(Pointer header);
 
-    // MdfDataGroup
+    // ===== MdfDataGroup =====
+    long MdfDataGroupGetDescription(Pointer group, byte[] description);
     long MdfDataGroupGetChannelGroups(Pointer group, Pointer[] channelGroups);
     Pointer MdfDataGroupCreateChannelGroup(Pointer group);
 
-    // MdfChannelGroup
+    // ===== MdfChannelGroup =====
     long MdfChannelGroupGetName(Pointer group, byte[] name);
     void MdfChannelGroupSetName(Pointer group, String name);
     long MdfChannelGroupGetNofSamples(Pointer group);
@@ -109,7 +108,7 @@ public interface MdfLibraryNative extends Library {
     long MdfChannelGroupGetChannels(Pointer group, Pointer[] channels);
     Pointer MdfChannelGroupCreateChannel(Pointer group);
 
-    // MdfChannel
+    // ===== MdfChannel =====
     long MdfChannelGetName(Pointer channel, byte[] name);
     void MdfChannelSetName(Pointer channel, String name);
     boolean MdfChannelIsUnitUsed(Pointer channel);
@@ -123,30 +122,28 @@ public interface MdfLibraryNative extends Library {
     void MdfChannelSetDataType(Pointer channel, byte dataType);
     int MdfChannelGetBitCount(Pointer channel);
     void MdfChannelSetBitCount(Pointer channel, int bits);
-    void MdfChannelSetChannelValueAsSigned(Pointer channel, long value, byte valid, long arrayIndex);
-    void MdfChannelSetChannelValueAsUnSigned(Pointer channel, long value, byte valid, long arrayIndex);
-    void MdfChannelSetChannelValueAsFloat(Pointer channel, double value, byte valid, long arrayIndex);
-    void MdfChannelSetChannelValueAsString(Pointer channel, byte[] value, byte valid, long arrayIndex);
+    long MdfChannelGetDataBytes(Pointer channel);
+    void MdfChannelSetDataBytes(Pointer channel, long bytes);
+    void MdfChannelSetChannelValueAsSigned(Pointer channel, long value, int valid, long arrayIndex);
+    void MdfChannelSetChannelValueAsUnSigned(Pointer channel, long value, int valid, long arrayIndex);
+    void MdfChannelSetChannelValueAsFloat(Pointer channel, double value, int valid, long arrayIndex);
+    void MdfChannelSetChannelValueAsString(Pointer channel, byte[] value, int valid, long arrayIndex);
 
-    long MdfDataGroupGetDescription(Pointer dataGroup, byte[] description);
-
-    // MdfChannelObserver
+    // ===== MdfChannelObserver =====
     Pointer MdfChannelObserverCreate(Pointer dataGroup, Pointer channelGroup, Pointer channel);
     Pointer MdfChannelObserverCreateByChannelName(Pointer dataGroup, String channelName);
     void MdfChannelObserverUnInit(Pointer observer);
     long MdfChannelObserverGetNofSamples(Pointer observer);
     long MdfChannelObserverGetName(Pointer observer, byte[] name);
-    long MdfChannelObserverGetUnit(Pointer observer, byte[] unit);
     boolean MdfChannelObserverIsMaster(Pointer observer);
     boolean MdfChannelObserverGetChannelValueAsSigned(Pointer observer, long sample, LongByReference value);
     boolean MdfChannelObserverGetChannelValueAsUnSigned(Pointer observer, long sample, LongByReference value);
     boolean MdfChannelObserverGetChannelValueAsFloat(Pointer observer, long sample, DoubleByReference value);
-
     boolean MdfChannelObserverGetEngValueAsSigned(Pointer observer, long sample, LongByReference value);
     boolean MdfChannelObserverGetEngValueAsUnSigned(Pointer observer, long sample, LongByReference value);
     boolean MdfChannelObserverGetEngValueAsFloat(Pointer observer, long sample, DoubleByReference value);
 
-    // MdfFileHistory
+    // ===== MdfFileHistory =====
     long MdfFileHistoryGetToolName(Pointer fh, byte[] name);
     void MdfFileHistorySetToolName(Pointer fh, String name);
     long MdfFileHistoryGetDescription(Pointer fh, byte[] desc);

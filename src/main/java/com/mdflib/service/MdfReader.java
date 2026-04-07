@@ -8,12 +8,17 @@ import com.sun.jna.ptr.LongByReference;
 
 import java.io.Closeable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MdfReader implements Closeable {
 
     private Pointer readerPtr;
     private boolean closed = false;
+    private boolean dataLoaded = false;
+    private Map<String, List<Double>> cachedDoubleValues = new HashMap<>();
+    private Map<String, List<Long>> cachedLongValues = new HashMap<>();
 
     public MdfReader(String filePath) {
         if (filePath == null || filePath.trim().isEmpty()) {
@@ -68,10 +73,67 @@ public class MdfReader implements Closeable {
 
     public boolean readAllData() {
         checkOpen();
-        List<DataGroupInfo> dgs = getDataGroups();
-        for (int i = 0; i < dgs.size(); i++) {
-            if (!readData(i)) return false;
+        readEverythingButData();
+
+        Pointer filePtr = MdfLibraryNative.INSTANCE.MdfReaderGetFile(readerPtr);
+        if (filePtr == null) return false;
+
+        long dgCount = MdfLibraryNative.INSTANCE.MdfFileGetDataGroups(filePtr, null);
+        for (int i = 0; i < (int) dgCount; i++) {
+            Pointer dg = MdfLibraryNative.INSTANCE.MdfReaderGetDataGroup(readerPtr, i);
+            if (dg == null) continue;
+
+            List<Pointer> observers = new ArrayList<>();
+            List<String> observerNames = new ArrayList<>();
+
+            long cgCount = MdfLibraryNative.INSTANCE.MdfDataGroupGetChannelGroups(dg, null);
+            Pointer[] cgPtrs = new Pointer[(int) cgCount];
+            MdfLibraryNative.INSTANCE.MdfDataGroupGetChannelGroups(dg, cgPtrs);
+            for (Pointer cg : cgPtrs) {
+                if (cg == null) continue;
+                long chCount = MdfLibraryNative.INSTANCE.MdfChannelGroupGetChannels(cg, null);
+                Pointer[] chPtrs = new Pointer[(int) chCount];
+                MdfLibraryNative.INSTANCE.MdfChannelGroupGetChannels(cg, chPtrs);
+                for (Pointer ch : chPtrs) {
+                    if (ch == null) continue;
+                    String chName = getString(buf -> MdfLibraryNative.INSTANCE.MdfChannelGetName(ch, buf));
+                    if (chName != null && !chName.isEmpty()) {
+                        Pointer obs = MdfLibraryNative.INSTANCE.MdfChannelObserverCreateByChannelName(dg, chName);
+                        if (obs != null) {
+                            observers.add(obs);
+                            observerNames.add(chName);
+                        }
+                    }
+                }
+            }
+
+            if (!MdfLibraryNative.INSTANCE.MdfReaderReadData(readerPtr, dg)) {
+                for (Pointer obs : observers) {
+                    MdfLibraryNative.INSTANCE.MdfChannelObserverUnInit(obs);
+                }
+                return false;
+            }
+
+            DoubleByReference valRef = new DoubleByReference();
+            for (int oi = 0; oi < observers.size(); oi++) {
+                Pointer obs = observers.get(oi);
+                String name = observerNames.get(oi);
+                try {
+                    long sampleCount = MdfLibraryNative.INSTANCE.MdfChannelObserverGetNofSamples(obs);
+                    List<Double> values = new ArrayList<>();
+                    for (long s = 0; s < sampleCount; s++) {
+                        boolean ok = MdfLibraryNative.INSTANCE.MdfChannelObserverGetEngValueAsFloat(obs, s, valRef);
+                        if (ok) {
+                            values.add(valRef.getValue());
+                        }
+                    }
+                    cachedDoubleValues.put(name, values);
+                } finally {
+                    MdfLibraryNative.INSTANCE.MdfChannelObserverUnInit(obs);
+                }
+            }
         }
+        dataLoaded = true;
         return true;
     }
 
@@ -165,8 +227,11 @@ public class MdfReader implements Closeable {
 
     public List<Double> getChannelValuesAsDouble(int dataGroupIndex, String channelName) {
         checkOpen();
-        List<Double> values = new ArrayList<>();
+        if (dataLoaded && cachedDoubleValues.containsKey(channelName)) {
+            return new ArrayList<>(cachedDoubleValues.get(channelName));
+        }
 
+        List<Double> values = new ArrayList<>();
         Pointer dg = MdfLibraryNative.INSTANCE.MdfReaderGetDataGroup(readerPtr, dataGroupIndex);
         if (dg == null) return values;
 
@@ -190,8 +255,11 @@ public class MdfReader implements Closeable {
 
     public List<Long> getChannelValuesAsLong(int dataGroupIndex, String channelName) {
         checkOpen();
-        List<Long> values = new ArrayList<>();
+        if (dataLoaded && cachedLongValues.containsKey(channelName)) {
+            return new ArrayList<>(cachedLongValues.get(channelName));
+        }
 
+        List<Long> values = new ArrayList<>();
         Pointer dg = MdfLibraryNative.INSTANCE.MdfReaderGetDataGroup(readerPtr, dataGroupIndex);
         if (dg == null) return values;
 
