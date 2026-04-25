@@ -1,13 +1,11 @@
 package com.mdflib.service;
 
 import com.mdflib.model.*;
-import com.sun.jna.Pointer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,20 +13,45 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Legacy test suite updated from JNA to JNI.
+ *
+ * <p>This test class preserves the original test structure while using the
+ * new JNI-based API. Pointer types have been replaced with long (native pointer)
+ * values in the MdfWriter API.</p>
+ *
+ * @author mdflib-java contributors
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 public class MdfReaderWriterTest {
 
+    /** Temporary directory for test output files. */
     private String tempDir;
 
+    /**
+     * Creates a temporary directory before each test.
+     *
+     * @throws Exception if directory creation fails
+     */
     @Before
     public void setUp() throws Exception {
         tempDir = Files.createTempDirectory("mdf_test").toString();
     }
 
+    /**
+     * Deletes the temporary directory after each test.
+     */
     @After
     public void tearDown() {
         deleteDirectory(new File(tempDir));
     }
 
+    /**
+     * Recursively deletes a directory and all its contents.
+     *
+     * @param dir the directory to delete
+     */
     private void deleteDirectory(File dir) {
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();
@@ -41,10 +64,23 @@ public class MdfReaderWriterTest {
         dir.delete();
     }
 
+    /**
+     * Creates a unique file path in the temp directory.
+     *
+     * @param baseName the base name for the file
+     * @return unique file path with .mf4 extension
+     */
     private String uniquePath(String baseName) {
         return Paths.get(tempDir, baseName + "_" + System.nanoTime() + ".mf4").toString();
     }
 
+    /**
+     * Writes a simple MDF4 file with a time channel and a signal channel.
+     *
+     * @param filePath output file path
+     * @param signalName name of the signal channel
+     * @param numSamples number of samples to write
+     */
     private void writeSimpleMf4File(String filePath, String signalName, int numSamples) {
         MdfWriter writer = new MdfWriter(filePath);
         try {
@@ -52,17 +88,19 @@ public class MdfReaderWriterTest {
             writer.setDepartment("TestDept");
             writer.setProject("TestProject");
 
-            Pointer dg = writer.createDataGroup();
-            Pointer cg = writer.createChannelGroup(dg);
+            long dg = writer.createDataGroup();
+            long cg = writer.createChannelGroup(dg);
 
-            Pointer timeCh = writer.createChannel(cg);
+            /* Master time channel */
+            long timeCh = writer.createChannel(cg);
             writer.setChannelName(timeCh, "t");
             writer.setChannelType(timeCh, MdfWriter.ChannelTypes.MASTER);
             writer.setChannelSyncType(timeCh, MdfWriter.SyncTypes.TIME);
             writer.setChannelDataType(timeCh, MdfWriter.DataTypes.FLOAT_LE);
             writer.setChannelDataBytes(timeCh, 8);
 
-            Pointer sigCh = writer.createChannel(cg);
+            /* Signal channel */
+            long sigCh = writer.createChannel(cg);
             writer.setChannelName(sigCh, signalName);
             writer.setChannelUnit(sigCh, "V");
             writer.setChannelType(sigCh, MdfWriter.ChannelTypes.FIXED_LENGTH);
@@ -85,6 +123,12 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /**
+     * Opens an MDF file, reads all data, and returns the reader.
+     *
+     * @param filePath the file to open
+     * @return the reader with all data loaded
+     */
     private MdfReader openAndReadAll(String filePath) {
         MdfReader reader = new MdfReader(filePath);
         assertTrue("Reader should be OK", reader.isOk());
@@ -95,6 +139,11 @@ public class MdfReaderWriterTest {
         return reader;
     }
 
+    /* ========================================================================
+     * Writer Tests
+     * ======================================================================== */
+
+    /** Tests basic writer creation. */
     @Test
     public void testWriterCreation() {
         String filePath = uniquePath("writer_create");
@@ -103,11 +152,17 @@ public class MdfReaderWriterTest {
         writer.close();
     }
 
+    /** Tests writer rejection of null path. */
     @Test(expected = IllegalArgumentException.class)
     public void testWriterCreationNullPath() {
         new MdfWriter((String) null);
     }
 
+    /* ========================================================================
+     * Header Read/Write Tests
+     * ======================================================================== */
+
+    /** Tests round-trip of header metadata fields. */
     @Test
     public void testWriteAndReadHeader() {
         String filePath = uniquePath("header_test");
@@ -120,10 +175,10 @@ public class MdfReaderWriterTest {
             writer.setSubject("TestSubject");
             writer.setDescription("TestDescription");
 
-            Pointer dg = writer.createDataGroup();
-            Pointer cg = writer.createChannelGroup(dg);
+            long dg = writer.createDataGroup();
+            long cg = writer.createChannelGroup(dg);
 
-            Pointer timeCh = writer.createChannel(cg);
+            long timeCh = writer.createChannel(cg);
             writer.setChannelName(timeCh, "t");
             writer.setChannelType(timeCh, MdfWriter.ChannelTypes.MASTER);
             writer.setChannelSyncType(timeCh, MdfWriter.SyncTypes.TIME);
@@ -155,6 +210,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * File Info Tests
+     * ======================================================================== */
+
+    /** Tests reading file info after writing. */
     @Test
     public void testWriteAndReadFileInfo() {
         String filePath = uniquePath("fileinfo_test");
@@ -172,6 +232,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Data Group Tests
+     * ======================================================================== */
+
+    /** Tests reading data group structure. */
     @Test
     public void testWriteAndReadDataGroups() {
         String filePath = uniquePath("dg_test");
@@ -192,6 +257,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Channel Value Tests
+     * ======================================================================== */
+
+    /** Tests reading channel values after writing. */
     @Test
     public void testWriteAndReadChannelValues() {
         String filePath = uniquePath("chvals_test");
@@ -211,6 +281,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Multiple Channel Tests
+     * ======================================================================== */
+
+    /** Tests writing and reading multiple channels. */
     @Test
     public void testWriteAndReadMultipleChannels() {
         String filePath = uniquePath("multi_ch_test");
@@ -218,24 +293,24 @@ public class MdfReaderWriterTest {
         try {
             writer.setAuthor("MdfLibJavaTest");
 
-            Pointer dg = writer.createDataGroup();
-            Pointer cg = writer.createChannelGroup(dg);
+            long dg = writer.createDataGroup();
+            long cg = writer.createChannelGroup(dg);
 
-            Pointer timeCh = writer.createChannel(cg);
+            long timeCh = writer.createChannel(cg);
             writer.setChannelName(timeCh, "t");
             writer.setChannelType(timeCh, MdfWriter.ChannelTypes.MASTER);
             writer.setChannelSyncType(timeCh, MdfWriter.SyncTypes.TIME);
             writer.setChannelDataType(timeCh, MdfWriter.DataTypes.FLOAT_LE);
             writer.setChannelDataBytes(timeCh, 8);
 
-            Pointer tempCh = writer.createChannel(cg);
+            long tempCh = writer.createChannel(cg);
             writer.setChannelName(tempCh, "temperature");
             writer.setChannelUnit(tempCh, "C");
             writer.setChannelType(tempCh, MdfWriter.ChannelTypes.FIXED_LENGTH);
             writer.setChannelDataType(tempCh, MdfWriter.DataTypes.FLOAT_LE);
             writer.setChannelDataBytes(tempCh, 8);
 
-            Pointer pressCh = writer.createChannel(cg);
+            long pressCh = writer.createChannel(cg);
             writer.setChannelName(pressCh, "pressure");
             writer.setChannelUnit(pressCh, "Pa");
             writer.setChannelType(pressCh, MdfWriter.ChannelTypes.FIXED_LENGTH);
@@ -280,6 +355,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Channel Name Tests
+     * ======================================================================== */
+
+    /** Tests reading channel names. */
     @Test
     public void testWriteAndReadChannelNames() {
         String filePath = uniquePath("chnames_test");
@@ -296,6 +376,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Error Handling Tests
+     * ======================================================================== */
+
+    /** Tests reading a non-existent file. */
     @Test
     public void testReaderOnNonExistentFile() {
         String filePath = Paths.get(tempDir, "nonexistent.mf4").toString();
@@ -304,6 +389,11 @@ public class MdfReaderWriterTest {
         reader.close();
     }
 
+    /* ========================================================================
+     * Compression Tests
+     * ======================================================================== */
+
+    /** Tests writing compressed data. */
     @Test
     public void testWriteCompressedData() {
         String filePath = uniquePath("compressed_test");
@@ -314,17 +404,17 @@ public class MdfReaderWriterTest {
             writer.setAuthor("CompressTest");
             writer.setCompressData(true);
 
-            Pointer dg = writer.createDataGroup();
-            Pointer cg = writer.createChannelGroup(dg);
+            long dg = writer.createDataGroup();
+            long cg = writer.createChannelGroup(dg);
 
-            Pointer timeCh = writer.createChannel(cg);
+            long timeCh = writer.createChannel(cg);
             writer.setChannelName(timeCh, "t");
             writer.setChannelType(timeCh, MdfWriter.ChannelTypes.MASTER);
             writer.setChannelSyncType(timeCh, MdfWriter.SyncTypes.TIME);
             writer.setChannelDataType(timeCh, MdfWriter.DataTypes.FLOAT_LE);
             writer.setChannelDataBytes(timeCh, 8);
 
-            Pointer sigCh = writer.createChannel(cg);
+            long sigCh = writer.createChannel(cg);
             writer.setChannelName(sigCh, "compressed_signal");
             writer.setChannelUnit(sigCh, "V");
             writer.setChannelType(sigCh, MdfWriter.ChannelTypes.FIXED_LENGTH);
@@ -359,6 +449,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Large Dataset Tests
+     * ======================================================================== */
+
+    /** Tests writing and reading a large number of samples. */
     @Test
     public void testWriteAndReadLargeDataset() {
         String filePath = uniquePath("large_test");
@@ -376,6 +471,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Channel Group Info Tests
+     * ======================================================================== */
+
+    /** Tests reading channel group details. */
     @Test
     public void testReadChannelGroupInfo() {
         String filePath = uniquePath("cginfo_test");
@@ -414,6 +514,11 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /* ========================================================================
+     * Edge Case Tests
+     * ======================================================================== */
+
+    /** Tests reading a non-existent channel. */
     @Test
     public void testReadNonExistingChannel() {
         String filePath = uniquePath("nonexist_ch_test");
@@ -429,6 +534,7 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /** Tests multiple write-read cycles. */
     @Test
     public void testMultipleWriteReadCycles() {
         for (int cycle = 0; cycle < 3; cycle++) {
@@ -459,6 +565,7 @@ public class MdfReaderWriterTest {
         }
     }
 
+    /** Tests that writer operations fail after close. */
     @Test(expected = IllegalStateException.class)
     public void testWriterOperationAfterClose() {
         String filePath = uniquePath("writer_closed");
@@ -467,6 +574,7 @@ public class MdfReaderWriterTest {
         writer.setAuthor("should fail");
     }
 
+    /** Tests that reader operations fail after close. */
     @Test(expected = IllegalStateException.class)
     public void testReaderOperationAfterClose() {
         String filePath = uniquePath("reader_closed");

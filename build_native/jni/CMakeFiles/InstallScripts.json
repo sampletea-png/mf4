@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"E:/project AI/mdflib_dill/build_native/jni/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="E:\project AI\mdflib_dill\build_native\jni\CMakeFiles\33c29988ceb8d2821796a709fb781b40\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4BADB63C-8BFD-3658-9BBA-465448D990EE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

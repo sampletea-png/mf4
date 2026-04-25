@@ -1,0 +1,10 @@
+^E:\PROJECT AI\MDFLIB_DILL\BUILD_NATIVE\JNI\CMAKEFILES\33C29988CEB8D2821796A709FB781B40\GENERATE.STAMP.RULE
+setlocal
+"D:\Program Files\CMake\bin\cmake.exe" "-SE:/project AI/mdflib_dill/native" "-BE:/project AI/mdflib_dill/build_native/jni" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "E:/project AI/mdflib_dill/build_native/jni/mdflibjni.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

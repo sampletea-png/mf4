@@ -9,8 +9,8 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>MDFLib Java</name>
-    <description>Java wrapper for mdflib - ASAM MDF file reader/writer</description>
+    <name>MDFLib Java (JNI)</name>
+    <description>Java JNI wrapper for mdflib - ASAM MDF file reader/writer</description>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -19,11 +19,11 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>5.14.0</version>
-        </dependency>
+        <!--
+            JNA dependency removed - project now uses JNI directly.
+            The native library (mdflibjni.dll / libmdflibjni.so) is loaded
+            via System.loadLibrary() from the classpath resources.
+        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -39,7 +39,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <argLine>-Djna.library.path="${project.basedir}/src/main/resources/native/win32-x86-64"</argLine>
+                    <!--
+                        Set java.library.path to include the native library directory.
+                        The JNI bridge library is extracted from resources at runtime,
+                        so this serves as a fallback path for development testing.
+                    -->
+                    <argLine>-Djava.library.path="${project.basedir}/src/main/resources/native/win32-x86-64"</argLine>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <useFile>false</useFile>
                 </configuration>

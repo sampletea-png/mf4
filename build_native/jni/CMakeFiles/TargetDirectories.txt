@@ -1,0 +1,4 @@
+E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/mdflibjni.dir
+E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/INSTALL.dir
+E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/ALL_BUILD.dir
+E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/ZERO_CHECK.dir

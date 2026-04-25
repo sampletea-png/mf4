@@ -1,45 +1,77 @@
 package com.mdflib.service;
 
-import com.mdflib.jna.MdfLibraryNative;
+import com.mdflib.jni.MdfLibraryNative;
 import com.mdflib.model.*;
-import com.sun.jna.Pointer;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.List;
 
+/**
+ * Simple load test verifying basic JNI library initialization and operations.
+ *
+ * <p>This test class provides a quick smoke test for the JNI native library,
+ * verifying that:</p>
+ * <ul>
+ *   <li>The native library singleton can be obtained</li>
+ *   <li>A basic write-then-read cycle works end-to-end</li>
+ * </ul>
+ *
+ * @author mdflib-java contributors
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 public class SimpleLoadTest {
+
+    /**
+     * Tests that the native library singleton instance can be obtained.
+     *
+     * <p>This verifies that the JNI library was successfully loaded
+     * and the singleton pattern works correctly.</p>
+     */
     @Test
     public void testLibraryLoads() {
-        assertNotNull(MdfLibraryNative.INSTANCE);
+        MdfLibraryNative instance = MdfLibraryNative.getInstance();
+        assertNotNull("Native library instance should not be null", instance);
     }
 
+    /**
+     * Tests a minimal write-then-read cycle using high-level API.
+     *
+     * <p>Creates a simple MDF4 file with one time channel and one signal
+     * channel, writes 5 samples, then reads them back and verifies
+     * the data integrity.</p>
+     */
     @Test
-    public void testWriteThenReadDebug() {
-        String file = "debug_test_" + System.nanoTime() + ".mf4";
-        MdfLibraryNative N = MdfLibraryNative.INSTANCE;
+    public void testWriteThenReadBasic() {
+        String file = "simple_jni_test_" + System.nanoTime() + ".mf4";
+        MdfLibraryNative N = MdfLibraryNative.getInstance();
 
-        System.out.println("=== WRITE ===");
-        Pointer writer = N.MdfWriterInit(1, file);
-        assertNotNull(writer);
+        /* === WRITE PHASE === */
+        long writer = N.MdfWriterInit(1, file);
+        assertNotEquals("Writer pointer should be non-zero", 0, writer);
 
-        Pointer dg = N.MdfWriterCreateDataGroup(writer);
-        Pointer cg = N.MdfDataGroupCreateChannelGroup(dg);
+        /* Create data structure: DG -> CG -> Channels */
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
 
-        Pointer timeCh = N.MdfChannelGroupCreateChannel(cg);
+        /* Configure time channel (master) */
+        long timeCh = N.MdfChannelGroupCreateChannel(cg);
         N.MdfChannelSetName(timeCh, "t");
         N.MdfChannelSetType(timeCh, (byte) 2);
         N.MdfChannelSetSync(timeCh, (byte) 1);
         N.MdfChannelSetDataType(timeCh, (byte) 4);
         N.MdfChannelSetDataBytes(timeCh, 8);
 
-        Pointer sigCh = N.MdfChannelGroupCreateChannel(cg);
+        /* Configure signal channel */
+        long sigCh = N.MdfChannelGroupCreateChannel(cg);
         N.MdfChannelSetName(sigCh, "Sig");
         N.MdfChannelSetType(sigCh, (byte) 0);
         N.MdfChannelSetDataType(sigCh, (byte) 4);
         N.MdfChannelSetDataBytes(sigCh, 8);
 
-        assertTrue(N.MdfWriterInitMeasurement(writer));
+        /* Write samples */
+        assertTrue("InitMeasurement should succeed", N.MdfWriterInitMeasurement(writer));
         N.MdfWriterStartMeasurement(writer, 100000000L);
 
         int n = 5;
@@ -50,90 +82,57 @@ public class SimpleLoadTest {
         }
 
         N.MdfWriterStopMeasurement(writer, 100000000L + n * 10000L);
-        assertTrue(N.MdfWriterFinalizeMeasurement(writer));
+        assertTrue("FinalizeMeasurement should succeed", N.MdfWriterFinalizeMeasurement(writer));
         N.MdfWriterUnInit(writer);
 
-        System.out.println("=== READ ===");
-        Pointer reader = N.MdfReaderInit(file);
-        assertNotNull(reader);
-        assertTrue(N.MdfReaderIsOk(reader));
-        assertTrue(N.MdfReaderOpen(reader));
-        assertTrue(N.MdfReaderReadHeader(reader));
-        assertTrue(N.MdfReaderReadMeasurementInfo(reader));
-        assertTrue(N.MdfReaderReadEverythingButData(reader));
+        /* === READ PHASE === */
+        long reader = N.MdfReaderInit(file);
+        assertNotEquals("Reader pointer should be non-zero", 0, reader);
+        assertTrue("Reader should be OK", N.MdfReaderIsOk(reader));
+        assertTrue("Open should succeed", N.MdfReaderOpen(reader));
+        assertTrue("ReadHeader should succeed", N.MdfReaderReadHeader(reader));
+        assertTrue("ReadMeasurementInfo should succeed", N.MdfReaderReadMeasurementInfo(reader));
+        assertTrue("ReadEverythingButData should succeed", N.MdfReaderReadEverythingButData(reader));
 
-        Pointer filePtr = N.MdfReaderGetFile(reader);
-        assertNotNull(filePtr);
+        /* Verify file structure */
+        long filePtr = N.MdfReaderGetFile(reader);
+        assertNotEquals("File pointer should be non-zero", 0, filePtr);
 
         long dgCount = N.MdfFileGetDataGroups(filePtr, null);
-        System.out.println("DataGroup count: " + dgCount);
-        assertTrue(dgCount >= 1);
+        assertTrue("Should have at least 1 data group", dgCount >= 1);
 
-        Pointer dgRead = N.MdfReaderGetDataGroup(reader, 0);
-        assertNotNull(dgRead);
+        long dgRead = N.MdfReaderGetDataGroup(reader, 0);
+        assertNotEquals("Data group pointer should be non-zero", 0, dgRead);
 
         long cgCount = N.MdfDataGroupGetChannelGroups(dgRead, null);
-        System.out.println("ChannelGroup count: " + cgCount);
+        assertTrue("Should have at least 1 channel group", cgCount >= 1);
 
-        Pointer[] cgPtrs = new Pointer[(int) cgCount];
+        /* Read channel data */
+        long[] cgPtrs = new long[(int) cgCount];
         N.MdfDataGroupGetChannelGroups(dgRead, cgPtrs);
-        for (int ci = 0; ci < cgPtrs.length; ci++) {
-            final Pointer c = cgPtrs[ci];
-            String cgName = getString(buf -> N.MdfChannelGroupGetName(c, buf));
-            long samples = N.MdfChannelGroupGetNofSamples(c);
-            System.out.println("CG[" + ci + "] name='" + cgName + "' samples=" + samples);
 
-            long chCount = N.MdfChannelGroupGetChannels(c, null);
-            System.out.println("  Channel count: " + chCount);
-            Pointer[] chPtrs = new Pointer[(int) chCount];
-            N.MdfChannelGroupGetChannels(c, chPtrs);
-            for (int j = 0; j < chPtrs.length; j++) {
-                final Pointer chPtr = chPtrs[j];
-                String chName = getString(buf -> N.MdfChannelGetName(chPtr, buf));
-                System.out.println("  Ch[" + j + "] name='" + chName + "'");
-            }
-        }
+        assertTrue("ReadData should succeed", N.MdfReaderReadData(reader, dgRead));
 
-        System.out.println("Reading data...");
-        assertTrue(N.MdfReaderReadData(reader, dgRead));
-
-        Pointer observer = N.MdfChannelObserverCreateByChannelName(dgRead, "Sig");
-        System.out.println("Observer for 'Sig': " + observer);
-        assertNotNull(observer);
+        /* Create observer for signal channel */
+        long observer = N.MdfChannelObserverCreateByChannelName(dgRead, "Sig");
+        assertNotEquals("Observer should be non-zero", 0, observer);
 
         long samples = N.MdfChannelObserverGetNofSamples(observer);
-        System.out.println("Observer sample count: " + samples);
 
-        com.sun.jna.ptr.DoubleByReference valRef = new com.sun.jna.ptr.DoubleByReference();
-        com.sun.jna.ptr.LongByReference longRef = new com.sun.jna.ptr.LongByReference();
+        /* Verify signal values */
+        double[] valRef = new double[2];
         for (long s = 0; s < samples; s++) {
-            boolean ok = N.MdfChannelObserverGetChannelValueAsFloat(observer, s, valRef);
-            boolean engOk = N.MdfChannelObserverGetEngValueAsFloat(observer, s, valRef);
-            boolean sigOk = N.MdfChannelObserverGetChannelValueAsSigned(observer, s, longRef);
-            System.out.println("  Sample " + s + ": floatOk=" + ok + " engOk=" + engOk + " sigOk=" + sigOk + " fval=" + valRef.getValue() + " lval=" + longRef.getValue());
+            boolean ok = N.MdfChannelObserverGetEngValueAsFloat(observer, s, valRef);
+            assertTrue("Should get value for sample " + s, ok);
+            assertEquals("Sample " + s + " value",
+                s * 10.0, valRef[0], 0.001);
         }
 
         N.MdfChannelObserverUnInit(observer);
         N.MdfReaderClose(reader);
         N.MdfReaderUnInit(reader);
-        System.out.println("ALL PASSED!");
-    }
 
-    private interface StringGetter {
-        long get(byte[] buf);
-    }
-
-    private String getString(StringGetter getter) {
-        long lenLong = getter.get(null);
-        if (lenLong <= 0) return "";
-        int len = (int) lenLong;
-        byte[] buf = new byte[len + 1];
-        getter.get(buf);
-        int actualLen = 0;
-        for (int i = 0; i < buf.length; i++) {
-            if (buf[i] == 0) break;
-            actualLen++;
-        }
-        return new String(buf, 0, actualLen);
+        /* Clean up test file */
+        new java.io.File(file).delete();
     }
 }
