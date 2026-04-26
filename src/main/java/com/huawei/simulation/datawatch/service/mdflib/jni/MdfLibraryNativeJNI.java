@@ -1,4 +1,4 @@
-package com.mdflib.jni;
+package com.huawei.simulation.datawatch.service.mdflib.jni;
 
 /**
  * JNI-based native library wrapper for mdflib (ASAM MDF file reader/writer).
@@ -21,14 +21,21 @@ package com.mdflib.jni;
  * instance should be used from a single thread, or external synchronization
  * must be applied.</p>
  *
+ * <p>Class naming convention: The JNI class name follows the Huawei simulation
+ * framework naming convention:
+ * {@code com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI}.
+ * The C++ side JNI function names are derived from this fully qualified class name,
+ * replacing dots with underscores (e.g.,
+ * {@code Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderInit}).</p>
+ *
  * @author mdflib-java contributors
  * @version 1.0.0
  * @since 1.0.0
  */
-public final class MdfLibraryNative {
+public final class MdfLibraryNativeJNI {
 
     /** Singleton instance holder pattern for lazy thread-safe initialization. */
-    private static final MdfLibraryNative INSTANCE = new MdfLibraryNative();
+    private static final MdfLibraryNativeJNI INSTANCE = new MdfLibraryNativeJNI();
 
     /**
      * Flag indicating whether the native library was successfully loaded.
@@ -46,7 +53,7 @@ public final class MdfLibraryNative {
      * Private constructor to enforce singleton pattern.
      * Triggers native library loading on first instantiation.
      */
-    private MdfLibraryNative() {
+    private MdfLibraryNativeJNI() {
         ensureLibraryLoaded();
     }
 
@@ -54,12 +61,12 @@ public final class MdfLibraryNative {
      * Returns the singleton instance of the native library wrapper.
      *
      * <p>This method provides access to the single instance of
-     * {@code MdfLibraryNative}. The native library is loaded lazily
+     * {@code MdfLibraryNativeJNI}. The native library is loaded lazily
      * on first access.</p>
      *
      * @return the singleton native library wrapper instance, never null
      */
-    public static MdfLibraryNative getInstance() {
+    public static MdfLibraryNativeJNI getInstance() {
         return INSTANCE;
     }
 
@@ -160,7 +167,7 @@ public final class MdfLibraryNative {
      */
     private static void extractResource(String resourcePath, java.nio.file.Path target)
             throws java.io.IOException {
-        java.io.InputStream is = MdfLibraryNative.class.getClassLoader()
+        java.io.InputStream is = MdfLibraryNativeJNI.class.getClassLoader()
             .getResourceAsStream(resourcePath);
         if (is != null) {
             try {

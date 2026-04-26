@@ -1,6 +1,6 @@
 package com.mdflib.service;
 
-import com.mdflib.jni.MdfLibraryNative;
+import com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
 import com.mdflib.model.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -31,7 +31,7 @@ public class SimpleLoadTest {
      */
     @Test
     public void testLibraryLoads() {
-        MdfLibraryNative instance = MdfLibraryNative.getInstance();
+        MdfLibraryNativeJNI instance = MdfLibraryNativeJNI.getInstance();
         assertNotNull("Native library instance should not be null", instance);
     }
 
@@ -45,7 +45,7 @@ public class SimpleLoadTest {
     @Test
     public void testWriteThenReadBasic() {
         String file = "simple_jni_test_" + System.nanoTime() + ".mf4";
-        MdfLibraryNative N = MdfLibraryNative.getInstance();
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
 
         /* === WRITE PHASE === */
         long writer = N.MdfWriterInit(1, file);

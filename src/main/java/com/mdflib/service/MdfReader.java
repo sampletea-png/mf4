@@ -1,6 +1,6 @@
 package com.mdflib.service;
 
-import com.mdflib.jni.MdfLibraryNative;
+import com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
 import com.mdflib.model.*;
 
 import java.io.Closeable;
@@ -44,7 +44,7 @@ import java.util.Map;
  * @version 1.0.0
  * @since 1.0.0
  * @see MdfWriter
- * @see MdfLibraryNative
+ * @see MdfLibraryNativeJNI
  */
 public class MdfReader implements Closeable {
 
@@ -73,7 +73,7 @@ public class MdfReader implements Closeable {
      * Reference to the JNI native library singleton.
      * All native calls are routed through this instance.
      */
-    private final MdfLibraryNative nativeLib;
+    private final MdfLibraryNativeJNI nativeLib;
 
     /**
      * Constructs a new MdfReader for the specified file path.
@@ -86,7 +86,7 @@ public class MdfReader implements Closeable {
      * @throws RuntimeException if the native reader cannot be initialized
      */
     public MdfReader(String filePath) {
-        this(filePath, MdfLibraryNative.getInstance());
+        this(filePath, MdfLibraryNativeJNI.getInstance());
     }
 
     /**
@@ -100,7 +100,7 @@ public class MdfReader implements Closeable {
      * @throws IllegalArgumentException if filePath is null or empty
      * @throws RuntimeException if the native reader cannot be initialized
      */
-    public MdfReader(String filePath, MdfLibraryNative nativeLib) {
+    public MdfReader(String filePath, MdfLibraryNativeJNI nativeLib) {
         if (filePath == null || filePath.trim().isEmpty()) {
             throw new IllegalArgumentException("File path must not be null or empty");
         }

@@ -1,6 +1,6 @@
 package com.mdflib.service;
 
-import com.mdflib.jni.MdfLibraryNative;
+import com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
 import com.mdflib.model.*;
 
 import org.junit.After;
@@ -45,7 +45,7 @@ public class MdfReaderWriterJniTest {
     private Path tempDir;
 
     /** Native library instance, reused across tests for efficiency. */
-    private MdfLibraryNative nativeLib;
+    private MdfLibraryNativeJNI nativeLib;
 
     /**
      * Sets up the test environment before each test.
@@ -58,7 +58,7 @@ public class MdfReaderWriterJniTest {
     @Before
     public void setUp() throws IOException {
         tempDir = Files.createTempDirectory("mdflib_jni_test");
-        nativeLib = MdfLibraryNative.getInstance();
+        nativeLib = MdfLibraryNativeJNI.getInstance();
     }
 
     /**
@@ -1356,12 +1356,12 @@ public class MdfReaderWriterJniTest {
      * ======================================================================== */
 
     /**
-     * Tests that MdfLibraryNative.getInstance() returns the same instance.
+     * Tests that MdfLibraryNativeJNI.getInstance() returns the same instance.
      */
     @Test
     public void testNativeLibrarySingleton() {
-        MdfLibraryNative instance1 = MdfLibraryNative.getInstance();
-        MdfLibraryNative instance2 = MdfLibraryNative.getInstance();
+        MdfLibraryNativeJNI instance1 = MdfLibraryNativeJNI.getInstance();
+        MdfLibraryNativeJNI instance2 = MdfLibraryNativeJNI.getInstance();
         assertSame("getInstance should return the same instance", instance1, instance2);
     }
 

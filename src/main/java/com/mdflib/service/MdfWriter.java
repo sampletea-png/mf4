@@ -1,6 +1,6 @@
 package com.mdflib.service;
 
-import com.mdflib.jni.MdfLibraryNative;
+import com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
 
 import java.io.Closeable;
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class MdfWriter implements Closeable {
     private List<Long> channels = new ArrayList<>();
 
     /** Reference to the JNI native library singleton. */
-    private final MdfLibraryNative nativeLib;
+    private final MdfLibraryNativeJNI nativeLib;
 
     /**
      * Constructs a new MdfWriter for MDF4 basic format.
@@ -110,7 +110,7 @@ public class MdfWriter implements Closeable {
      * @throws RuntimeException if the native writer cannot be initialized
      */
     public MdfWriter(int type, String filePath) {
-        this(type, filePath, MdfLibraryNative.getInstance());
+        this(type, filePath, MdfLibraryNativeJNI.getInstance());
     }
 
     /**
@@ -125,7 +125,7 @@ public class MdfWriter implements Closeable {
      * @throws IllegalArgumentException if filePath is null or empty
      * @throws RuntimeException if the native writer cannot be initialized
      */
-    public MdfWriter(int type, String filePath, MdfLibraryNative nativeLib) {
+    public MdfWriter(int type, String filePath, MdfLibraryNativeJNI nativeLib) {
         if (filePath == null || filePath.trim().isEmpty()) {
             throw new IllegalArgumentException("File path must not be null or empty");
         }
