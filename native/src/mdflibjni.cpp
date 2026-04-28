@@ -380,7 +380,7 @@ static std::string string_from_java_bytes(JNIEnv* env, jbyteArray jstr) {
  *
  * These functions wrap the C-style MdfReader exports for reading MDF files.
  * Each function corresponds to a native method declared in
- * com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI.
+ * com.huawei.behavior.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI.
  * ======================================================================== */
 
 /**
@@ -395,7 +395,7 @@ static std::string string_from_java_bytes(JNIEnv* env, jbyteArray jstr) {
  * @return jlong representing the MdfReader pointer, or 0 on failure
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderInit(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderInit(
     JNIEnv* env, jobject obj, jstring jfilename) {
     if (jfilename == nullptr) return 0;
     const char* filename = env->GetStringUTFChars(jfilename, nullptr);
@@ -415,7 +415,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @param readerPtr native pointer to the MdfReader
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderUnInit(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderUnInit(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader != nullptr) {
@@ -438,7 +438,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return JNI_TRUE if the reader is in a valid state, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderIsOk(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderIsOk(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return JNI_FALSE;
@@ -457,7 +457,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return jlong representing the MdfFile pointer, or 0 if unavailable
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderGetFile(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderGetFile(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return 0;
@@ -475,7 +475,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return jlong representing the IHeader pointer, or 0 if unavailable
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderGetHeader(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderGetHeader(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return 0;
@@ -494,7 +494,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return jlong representing the IDataGroup pointer, or 0 if out of range
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderGetDataGroup(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderGetDataGroup(
     JNIEnv* env, jobject obj, jlong readerPtr, jlong index) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return 0;
@@ -513,7 +513,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return JNI_TRUE if opened successfully, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderOpen(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderOpen(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return JNI_FALSE;
@@ -530,7 +530,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @param readerPtr native pointer to the MdfReader
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderClose(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderClose(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader != nullptr) {
@@ -547,7 +547,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return JNI_TRUE if successful, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadHeader(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadHeader(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return JNI_FALSE;
@@ -563,7 +563,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return JNI_TRUE if successful, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadMeasurementInfo(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadMeasurementInfo(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return JNI_FALSE;
@@ -579,7 +579,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return JNI_TRUE if successful, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadEverythingButData(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadEverythingButData(
     JNIEnv* env, jobject obj, jlong readerPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     if (reader == nullptr) return JNI_FALSE;
@@ -596,7 +596,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return JNI_TRUE if successful, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadData(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderReadData(
     JNIEnv* env, jobject obj, jlong readerPtr, jlong groupPtr) {
     void* reader = ptr_from_jlong<void>(readerPtr);
     void* group = ptr_from_jlong<void>(groupPtr);
@@ -629,7 +629,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfR
  * @return jlong representing the MdfWriter pointer, or 0 on failure
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterInit(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterInit(
     JNIEnv* env, jobject obj, jint type, jstring jfilename) {
     if (jfilename == nullptr) return 0;
     const char* filename = env->GetStringUTFChars(jfilename, nullptr);
@@ -647,7 +647,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @param writerPtr native pointer to the MdfWriter
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterUnInit(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterUnInit(
     JNIEnv* env, jobject obj, jlong writerPtr) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer != nullptr) {
@@ -664,7 +664,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @return jlong representing the MdfFile pointer, or 0 if unavailable
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetFile(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetFile(
     JNIEnv* env, jobject obj, jlong writerPtr) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer == nullptr) return 0;
@@ -680,7 +680,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @return jlong representing the IHeader pointer, or 0 if unavailable
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetHeader(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetHeader(
     JNIEnv* env, jobject obj, jlong writerPtr) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer == nullptr) return 0;
@@ -696,7 +696,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @param compress 1 to enable, 0 to disable
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSetCompressData(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSetCompressData(
     JNIEnv* env, jobject obj, jlong writerPtr, jbyte compress) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer != nullptr) {
@@ -713,7 +713,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @return jlong representing the new IDataGroup pointer, or 0 on failure
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterCreateDataGroup(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterCreateDataGroup(
     JNIEnv* env, jobject obj, jlong writerPtr) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer == nullptr) return 0;
@@ -729,7 +729,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @return JNI_TRUE if successful, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterInitMeasurement(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterInitMeasurement(
     JNIEnv* env, jobject obj, jlong writerPtr) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer == nullptr) return JNI_FALSE;
@@ -746,7 +746,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @param time timestamp in nanoseconds
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSaveSample(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSaveSample(
     JNIEnv* env, jobject obj, jlong writerPtr, jlong groupPtr, jlong time) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     void* group = ptr_from_jlong<void>(groupPtr);
@@ -764,7 +764,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @param startTime start timestamp in nanoseconds
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterStartMeasurement(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterStartMeasurement(
     JNIEnv* env, jobject obj, jlong writerPtr, jlong startTime) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer != nullptr) {
@@ -781,7 +781,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @param stopTime stop timestamp in nanoseconds
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterStopMeasurement(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterStopMeasurement(
     JNIEnv* env, jobject obj, jlong writerPtr, jlong stopTime) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer != nullptr) {
@@ -798,7 +798,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * @return JNI_TRUE if successful, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterFinalizeMeasurement(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterFinalizeMeasurement(
     JNIEnv* env, jobject obj, jlong writerPtr) {
     void* writer = ptr_from_jlong<void>(writerPtr);
     if (writer == nullptr) return JNI_FALSE;
@@ -814,7 +814,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfW
  * Uses the two-step string retrieval pattern.
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetName(
     JNIEnv* env, jobject obj, jlong filePtr, jbyteArray jname) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr) return 0;
@@ -831,7 +831,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * Sets the internal name of the MDF file.
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileSetName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileSetName(
     JNIEnv* env, jobject obj, jlong filePtr, jstring jname) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr || jname == nullptr) return;
@@ -845,7 +845,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * Gets the file name (path) of the MDF file.
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetFileName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetFileName(
     JNIEnv* env, jobject obj, jlong filePtr, jbyteArray jfilename) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr) return 0;
@@ -862,7 +862,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * Gets the MDF format version string.
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetVersion(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetVersion(
     JNIEnv* env, jobject obj, jlong filePtr, jbyteArray jversion) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr) return 0;
@@ -879,7 +879,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * Gets the main version number (e.g., 4 for MDF4).
  */
 extern "C" JNI_EXPORT jint JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetMainVersion(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetMainVersion(
     JNIEnv* env, jobject obj, jlong filePtr) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr) return 0;
@@ -890,7 +890,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * Gets the minor version number (e.g., 10 for MDF 4.10).
  */
 extern "C" JNI_EXPORT jint JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetMinorVersion(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetMinorVersion(
     JNIEnv* env, jobject obj, jlong filePtr) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr) return 0;
@@ -901,7 +901,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * Checks if the file is in MDF4 format.
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetIsMdf4(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetIsMdf4(
     JNIEnv* env, jobject obj, jlong filePtr) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr) return JNI_FALSE;
@@ -926,7 +926,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * @return the number of data groups in the file
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetDataGroups(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetDataGroups(
     JNIEnv* env, jobject obj, jlong filePtr, jlongArray jdataGroups) {
     void* file = ptr_from_jlong<void>(filePtr);
     if (file == nullptr) return 0;
@@ -977,7 +977,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * @return the length of the author string in bytes
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetAuthor(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetAuthor(
     JNIEnv* env, jobject obj, jlong headerPtr, jbyteArray jauthor) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -998,7 +998,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @param jauthor Java String with the author name to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetAuthor(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetAuthor(
     JNIEnv* env, jobject obj, jlong headerPtr, jstring jauthor) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr || jauthor == nullptr) return;
@@ -1016,7 +1016,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @return the length of the description string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetDescription(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetDescription(
     JNIEnv* env, jobject obj, jlong headerPtr, jbyteArray jdesc) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1036,7 +1036,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @param jdesc Java String with the description to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetDescription(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetDescription(
     JNIEnv* env, jobject obj, jlong headerPtr, jstring jdesc) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr || jdesc == nullptr) return;
@@ -1054,7 +1054,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @return the length of the project string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetProject(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetProject(
     JNIEnv* env, jobject obj, jlong headerPtr, jbyteArray jproject) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1074,7 +1074,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @param jproject Java String with the project name to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetProject(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetProject(
     JNIEnv* env, jobject obj, jlong headerPtr, jstring jproject) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr || jproject == nullptr) return;
@@ -1092,7 +1092,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @return the length of the subject string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetSubject(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetSubject(
     JNIEnv* env, jobject obj, jlong headerPtr, jbyteArray jsubject) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1112,7 +1112,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @param jsubject Java String with the subject to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetSubject(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetSubject(
     JNIEnv* env, jobject obj, jlong headerPtr, jstring jsubject) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr || jsubject == nullptr) return;
@@ -1130,7 +1130,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @return the length of the department string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetDepartment(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetDepartment(
     JNIEnv* env, jobject obj, jlong headerPtr, jbyteArray jdepartment) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1150,7 +1150,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @param jdepartment Java String with the department to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetDepartment(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetDepartment(
     JNIEnv* env, jobject obj, jlong headerPtr, jstring jdepartment) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr || jdepartment == nullptr) return;
@@ -1162,7 +1162,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
 
 /** Gets the start time from the header (nanoseconds since epoch). */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetStartTime(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetStartTime(
     JNIEnv* env, jobject obj, jlong headerPtr) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1171,7 +1171,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
 
 /** Gets all data groups from the header. */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetDataGroups(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetDataGroups(
     JNIEnv* env, jobject obj, jlong headerPtr, jlongArray jdataGroups) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1196,7 +1196,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
 
 /** Creates a new data group in the header. */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderCreateDataGroup(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderCreateDataGroup(
     JNIEnv* env, jobject obj, jlong headerPtr) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1205,7 +1205,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
 
 /** Creates a new file history entry in the header. */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderCreateFileHistory(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderCreateFileHistory(
     JNIEnv* env, jobject obj, jlong headerPtr) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1214,7 +1214,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
 
 /** Gets the last data group from the header. */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetLastDataGroup(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetLastDataGroup(
     JNIEnv* env, jobject obj, jlong headerPtr) {
     void* header = ptr_from_jlong<void>(headerPtr);
     if (header == nullptr) return 0;
@@ -1237,7 +1237,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfH
  * @return the length of the description string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetDescription(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetDescription(
     JNIEnv* env, jobject obj, jlong groupPtr, jbyteArray jdesc) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr) return 0;
@@ -1262,7 +1262,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfD
  * @return the number of channel groups
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetChannelGroups(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetChannelGroups(
     JNIEnv* env, jobject obj, jlong groupPtr, jlongArray jchannelGroups) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr) return 0;
@@ -1292,7 +1292,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfD
  * @return jlong pointer to the new IChannelGroup, or 0 on failure
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupCreateChannelGroup(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupCreateChannelGroup(
     JNIEnv* env, jobject obj, jlong groupPtr) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr) return 0;
@@ -1315,7 +1315,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfD
  * @return the length of the name string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetName(
     JNIEnv* env, jobject obj, jlong groupPtr, jbyteArray jname) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr) return 0;
@@ -1335,7 +1335,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param jname Java String with the name to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupSetName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupSetName(
     JNIEnv* env, jobject obj, jlong groupPtr, jstring jname) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr || jname == nullptr) return;
@@ -1352,7 +1352,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the number of recorded samples
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetNofSamples(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetNofSamples(
     JNIEnv* env, jobject obj, jlong groupPtr) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr) return 0;
@@ -1366,7 +1366,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param samples the expected number of samples
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupSetNofSamples(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupSetNofSamples(
     JNIEnv* env, jobject obj, jlong groupPtr, jlong samples) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group != nullptr) {
@@ -1383,7 +1383,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the number of channels
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetChannels(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetChannels(
     JNIEnv* env, jobject obj, jlong groupPtr, jlongArray jchannels) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr) return 0;
@@ -1413,7 +1413,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return jlong pointer to the new IChannel, or 0 on failure
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupCreateChannel(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupCreateChannel(
     JNIEnv* env, jobject obj, jlong groupPtr) {
     void* group = ptr_from_jlong<void>(groupPtr);
     if (group == nullptr) return 0;
@@ -1450,7 +1450,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the length of the name string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetName(
     JNIEnv* env, jobject obj, jlong channelPtr, jbyteArray jname) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return 0;
@@ -1470,7 +1470,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param jname Java String with the channel name to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetName(
     JNIEnv* env, jobject obj, jlong channelPtr, jstring jname) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr || jname == nullptr) return;
@@ -1487,7 +1487,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if a unit string is set, JNI_FALSE otherwise
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelIsUnitUsed(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelIsUnitUsed(
     JNIEnv* env, jobject obj, jlong channelPtr) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return JNI_FALSE;
@@ -1502,7 +1502,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the length of the unit string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetUnit(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetUnit(
     JNIEnv* env, jobject obj, jlong channelPtr, jbyteArray junit) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return 0;
@@ -1522,7 +1522,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param junit Java String with the unit to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetUnit(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetUnit(
     JNIEnv* env, jobject obj, jlong channelPtr, jstring junit) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr || junit == nullptr) return;
@@ -1539,7 +1539,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the channel type as a jbyte
  */
 extern "C" JNI_EXPORT jbyte JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetType(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetType(
     JNIEnv* env, jobject obj, jlong channelPtr) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return 0;
@@ -1553,7 +1553,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param type the channel type byte value
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetType(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetType(
     JNIEnv* env, jobject obj, jlong channelPtr, jbyte type) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel != nullptr) {
@@ -1563,7 +1563,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
 
 /** Gets the sync type of a channel. */
 extern "C" JNI_EXPORT jbyte JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetSync(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetSync(
     JNIEnv* env, jobject obj, jlong channelPtr) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return 0;
@@ -1572,7 +1572,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
 
 /** Sets the sync type of a channel. */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetSync(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetSync(
     JNIEnv* env, jobject obj, jlong channelPtr, jbyte syncType) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel != nullptr) {
@@ -1582,7 +1582,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
 
 /** Gets the data type of a channel. */
 extern "C" JNI_EXPORT jbyte JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetDataType(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetDataType(
     JNIEnv* env, jobject obj, jlong channelPtr) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return 0;
@@ -1591,7 +1591,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
 
 /** Sets the data type of a channel. */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetDataType(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetDataType(
     JNIEnv* env, jobject obj, jlong channelPtr, jbyte dataType) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel != nullptr) {
@@ -1606,7 +1606,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the number of bits used to represent the channel value
  */
 extern "C" JNI_EXPORT jint JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetBitCount(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetBitCount(
     JNIEnv* env, jobject obj, jlong channelPtr) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return 0;
@@ -1620,7 +1620,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param bits the number of bits (e.g., 8, 16, 32, 64)
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetBitCount(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetBitCount(
     JNIEnv* env, jobject obj, jlong channelPtr, jint bits) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel != nullptr) {
@@ -1635,7 +1635,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the number of data bytes per sample
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetDataBytes(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetDataBytes(
     JNIEnv* env, jobject obj, jlong channelPtr) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel == nullptr) return 0;
@@ -1649,7 +1649,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param bytes the number of data bytes per sample
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetDataBytes(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetDataBytes(
     JNIEnv* env, jobject obj, jlong channelPtr, jlong bytes) {
     void* channel = ptr_from_jlong<void>(channelPtr);
     if (channel != nullptr) {
@@ -1666,7 +1666,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param arrayIndex array index for array channels (typically 0)
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsSigned(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsSigned(
     JNIEnv* env, jobject obj, jlong channelPtr, jlong value,
     jint valid, jlong arrayIndex) {
     void* channel = ptr_from_jlong<void>(channelPtr);
@@ -1685,7 +1685,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param arrayIndex array index for array channels (typically 0)
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsUnSigned(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsUnSigned(
     JNIEnv* env, jobject obj, jlong channelPtr, jlong value,
     jint valid, jlong arrayIndex) {
     void* channel = ptr_from_jlong<void>(channelPtr);
@@ -1704,7 +1704,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param arrayIndex array index for array channels (typically 0)
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsFloat(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsFloat(
     JNIEnv* env, jobject obj, jlong channelPtr, jdouble value,
     jint valid, jlong arrayIndex) {
     void* channel = ptr_from_jlong<void>(channelPtr);
@@ -1727,7 +1727,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param arrayIndex array index for array channels (typically 0)
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsString(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsString(
     JNIEnv* env, jobject obj, jlong channelPtr, jbyteArray jvalue,
     jint valid, jlong arrayIndex) {
     void* channel = ptr_from_jlong<void>(channelPtr);
@@ -1765,7 +1765,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return jlong pointer to the new IChannelObserver, or 0 on failure
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverCreate(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverCreate(
     JNIEnv* env, jobject obj, jlong dgPtr, jlong cgPtr, jlong chPtr) {
     void* dg = ptr_from_jlong<void>(dgPtr);
     void* cg = ptr_from_jlong<void>(cgPtr);
@@ -1787,7 +1787,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return jlong pointer to the new IChannelObserver, or 0 if not found
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverCreateByChannelName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverCreateByChannelName(
     JNIEnv* env, jobject obj, jlong dgPtr, jstring jchannelName) {
     void* dg = ptr_from_jlong<void>(dgPtr);
     if (dg == nullptr || jchannelName == nullptr) return 0;
@@ -1804,7 +1804,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @param observerPtr native pointer to the IChannelObserver to free
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverUnInit(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverUnInit(
     JNIEnv* env, jobject obj, jlong observerPtr) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer != nullptr) {
@@ -1819,7 +1819,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the number of available samples
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetNofSamples(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetNofSamples(
     JNIEnv* env, jobject obj, jlong observerPtr) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr) return 0;
@@ -1834,7 +1834,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the length of the name string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetName(
     JNIEnv* env, jobject obj, jlong observerPtr, jbyteArray jname) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr) return 0;
@@ -1854,7 +1854,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if the observed channel is a master channel
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverIsMaster(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverIsMaster(
     JNIEnv* env, jobject obj, jlong observerPtr) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr) return JNI_FALSE;
@@ -1875,7 +1875,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if the value was retrieved successfully
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsSigned(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsSigned(
     JNIEnv* env, jobject obj, jlong observerPtr, jlong sample, jlongArray jvalue) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr || jvalue == nullptr) return JNI_FALSE;
@@ -1897,7 +1897,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if the value was retrieved successfully
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsUnSigned(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsUnSigned(
     JNIEnv* env, jobject obj, jlong observerPtr, jlong sample, jlongArray jvalue) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr || jvalue == nullptr) return JNI_FALSE;
@@ -1930,7 +1930,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if the value was retrieved, JNI_FALSE on error
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsFloat(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsFloat(
     JNIEnv* env, jobject obj, jlong observerPtr, jlong sample, jdoubleArray jvalue) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr || jvalue == nullptr) return JNI_FALSE;
@@ -1950,7 +1950,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if the value was retrieved successfully
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsSigned(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsSigned(
     JNIEnv* env, jobject obj, jlong observerPtr, jlong sample, jlongArray jvalue) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr || jvalue == nullptr) return JNI_FALSE;
@@ -1970,7 +1970,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if the value was retrieved successfully
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsUnSigned(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsUnSigned(
     JNIEnv* env, jobject obj, jlong observerPtr, jlong sample, jlongArray jvalue) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr || jvalue == nullptr) return JNI_FALSE;
@@ -1995,7 +1995,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return JNI_TRUE if the value was retrieved successfully
  */
 extern "C" JNI_EXPORT jboolean JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsFloat(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsFloat(
     JNIEnv* env, jobject obj, jlong observerPtr, jlong sample, jdoubleArray jvalue) {
     void* observer = ptr_from_jlong<void>(observerPtr);
     if (observer == nullptr || jvalue == nullptr) return JNI_FALSE;
@@ -2023,7 +2023,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfC
  * @return the length of the tool name string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetToolName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetToolName(
     JNIEnv* env, jobject obj, jlong fhPtr, jbyteArray jname) {
     void* fh = ptr_from_jlong<void>(fhPtr);
     if (fh == nullptr) return 0;
@@ -2043,7 +2043,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * @param jname Java String with the tool name to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetToolName(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetToolName(
     JNIEnv* env, jobject obj, jlong fhPtr, jstring jname) {
     void* fh = ptr_from_jlong<void>(fhPtr);
     if (fh == nullptr || jname == nullptr) return;
@@ -2061,7 +2061,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * @return the length of the description string
  */
 extern "C" JNI_EXPORT jlong JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetDescription(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetDescription(
     JNIEnv* env, jobject obj, jlong fhPtr, jbyteArray jdesc) {
     void* fh = ptr_from_jlong<void>(fhPtr);
     if (fh == nullptr) return 0;
@@ -2081,7 +2081,7 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
  * @param jdesc Java String with the description to set
  */
 extern "C" JNI_EXPORT void JNICALL
-Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetDescription(
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetDescription(
     JNIEnv* env, jobject obj, jlong fhPtr, jstring jdesc) {
     void* fh = ptr_from_jlong<void>(fhPtr);
     if (fh == nullptr || jdesc == nullptr) return;
@@ -2089,4 +2089,1234 @@ Java_com_huawei_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfF
     if (desc == nullptr) return;
     MdfFileHistorySetDescription(fh, desc);
     env->ReleaseStringUTFChars(jdesc, desc);
+}
+
+/* ========================================================================
+ * NEW: MdfReader additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfReaderGetIndex(
+    JNIEnv* env, jobject obj, jlong readerPtr) {
+    void* reader = ptr_from_jlong<void>(readerPtr);
+    if (reader == nullptr) return 0;
+    return static_cast<jlong>(MdfReaderGetIndex(reader));
+}
+
+/* ========================================================================
+ * NEW: MdfWriter additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterIsFileNew(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return JNI_FALSE;
+    return MdfWriterIsFileNew(writer) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetCompressData(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return JNI_FALSE;
+    return MdfWriterGetCompressData(writer) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetPreTrigTime(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfWriterGetPreTrigTime(writer));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSetPreTrigTime(
+    JNIEnv* env, jobject obj, jlong writerPtr, jdouble preTrigTime) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer != nullptr) {
+        MdfWriterSetPreTrigTime(writer, static_cast<double>(preTrigTime));
+    }
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetStartTime(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return 0;
+    return static_cast<jlong>(MdfWriterGetStartTime(writer));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetStopTime(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return 0;
+    return static_cast<jlong>(MdfWriterGetStopTime(writer));
+}
+
+extern "C" JNI_EXPORT jshort JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetBusType(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return 0;
+    return static_cast<jshort>(MdfWriterGetBusType(writer));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSetBusType(
+    JNIEnv* env, jobject obj, jlong writerPtr, jshort type) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer != nullptr) {
+        MdfWriterSetBusType(writer, static_cast<uint16_t>(type));
+    }
+}
+
+extern "C" JNI_EXPORT jint JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetStorageType(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return 0;
+    return static_cast<jint>(MdfWriterGetStorageType(writer));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSetStorageType(
+    JNIEnv* env, jobject obj, jlong writerPtr, jint type) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer != nullptr) {
+        MdfWriterSetStorageType(writer, static_cast<int>(type));
+    }
+}
+
+extern "C" JNI_EXPORT jint JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterGetMaxLength(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return 0;
+    return static_cast<jint>(MdfWriterGetMaxLength(writer));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterSetMaxLength(
+    JNIEnv* env, jobject obj, jlong writerPtr, jint length) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer != nullptr) {
+        MdfWriterSetMaxLength(writer, static_cast<uint32_t>(length));
+    }
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfWriterCreateBusLogConfiguration(
+    JNIEnv* env, jobject obj, jlong writerPtr) {
+    void* writer = ptr_from_jlong<void>(writerPtr);
+    if (writer == nullptr) return JNI_FALSE;
+    return MdfWriterCreateBusLogConfiguration(writer) ? JNI_TRUE : JNI_FALSE;
+}
+
+/* ========================================================================
+ * NEW: MdfFile additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileSetFileName(
+    JNIEnv* env, jobject obj, jlong filePtr, jstring jfilename) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file == nullptr || jfilename == nullptr) return;
+    const char* filename = env->GetStringUTFChars(jfilename, nullptr);
+    if (filename == nullptr) return;
+    MdfFileSetFileName(file, filename);
+    env->ReleaseStringUTFChars(jfilename, filename);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileSetMinorVersion(
+    JNIEnv* env, jobject obj, jlong filePtr, jint minor) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file != nullptr) {
+        MdfFileSetMinorVersion(file, static_cast<int>(minor));
+    }
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetProgramId(
+    JNIEnv* env, jobject obj, jlong filePtr, jbyteArray jprogramId) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file == nullptr) return 0;
+    if (jprogramId == nullptr) {
+        return static_cast<jlong>(MdfFileGetProgramId(file, nullptr));
+    }
+    size_t len = MdfFileGetProgramId(file, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfFileGetProgramId(file, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, jprogramId);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileSetProgramId(
+    JNIEnv* env, jobject obj, jlong filePtr, jstring jprogramId) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file == nullptr || jprogramId == nullptr) return;
+    const char* programId = env->GetStringUTFChars(jprogramId, nullptr);
+    if (programId == nullptr) return;
+    MdfFileSetProgramId(file, programId);
+    env->ReleaseStringUTFChars(jprogramId, programId);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetHeader(
+    JNIEnv* env, jobject obj, jlong filePtr) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfFileGetHeader(file)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileGetAttachments(
+    JNIEnv* env, jobject obj, jlong filePtr, jlongArray jattachments) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file == nullptr) return 0;
+    if (jattachments == nullptr) {
+        return static_cast<jlong>(MdfFileGetAttachments(file, nullptr));
+    }
+    size_t count = MdfFileGetAttachments(file, nullptr);
+    std::vector<const void*> ptrs(count);
+    MdfFileGetAttachments(file, ptrs.data());
+    jsize len = static_cast<jsize>(count);
+    std::vector<jlong> jlongs(len);
+    for (jsize i = 0; i < len; i++) {
+        jlongs[i] = ptr_to_jlong(const_cast<void*>(ptrs[i]));
+    }
+    env->SetLongArrayRegion(jattachments, 0, len, jlongs.data());
+    return static_cast<jlong>(count);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileCreateAttachment(
+    JNIEnv* env, jobject obj, jlong filePtr) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file == nullptr) return 0;
+    return ptr_to_jlong(MdfFileCreateAttachment(file));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileCreateDataGroup(
+    JNIEnv* env, jobject obj, jlong filePtr) {
+    void* file = ptr_from_jlong<void>(filePtr);
+    if (file == nullptr) return 0;
+    return ptr_to_jlong(MdfFileCreateDataGroup(file));
+}
+
+/* ========================================================================
+ * NEW: MdfHeader additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetIndex(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    return static_cast<jlong>(MdfHeaderGetIndex(header));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetMeasurementId(
+    JNIEnv* env, jobject obj, jlong headerPtr, jbyteArray juuid) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    if (juuid == nullptr) {
+        return static_cast<jlong>(MdfHeaderGetMeasurementId(header, nullptr));
+    }
+    size_t len = MdfHeaderGetMeasurementId(header, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfHeaderGetMeasurementId(header, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, juuid);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetMeasurementId(
+    JNIEnv* env, jobject obj, jlong headerPtr, jstring juuid) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr || juuid == nullptr) return;
+    const char* uuid = env->GetStringUTFChars(juuid, nullptr);
+    if (uuid == nullptr) return;
+    MdfHeaderSetMeasurementId(header, uuid);
+    env->ReleaseStringUTFChars(juuid, uuid);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetRecorderId(
+    JNIEnv* env, jobject obj, jlong headerPtr, jbyteArray juuid) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    if (juuid == nullptr) {
+        return static_cast<jlong>(MdfHeaderGetRecorderId(header, nullptr));
+    }
+    size_t len = MdfHeaderGetRecorderId(header, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfHeaderGetRecorderId(header, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, juuid);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetRecorderId(
+    JNIEnv* env, jobject obj, jlong headerPtr, jstring juuid) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr || juuid == nullptr) return;
+    const char* uuid = env->GetStringUTFChars(juuid, nullptr);
+    if (uuid == nullptr) return;
+    MdfHeaderSetRecorderId(header, uuid);
+    env->ReleaseStringUTFChars(juuid, uuid);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetRecorderIndex(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    return static_cast<jlong>(MdfHeaderGetRecorderIndex(header));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetRecorderIndex(
+    JNIEnv* env, jobject obj, jlong headerPtr, jlong index) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header != nullptr) {
+        MdfHeaderSetRecorderIndex(header, static_cast<int64_t>(index));
+    }
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetStartTime(
+    JNIEnv* env, jobject obj, jlong headerPtr, jlong time) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header != nullptr) {
+        MdfHeaderSetStartTime(header, static_cast<uint64_t>(time));
+    }
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderIsStartAngleUsed(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return JNI_FALSE;
+    return MdfHeaderIsStartAngleUsed(header) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetStartAngle(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfHeaderGetStartAngle(header));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetStartAngle(
+    JNIEnv* env, jobject obj, jlong headerPtr, jdouble angle) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header != nullptr) {
+        MdfHeaderSetStartAngle(header, static_cast<double>(angle));
+    }
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderIsStartDistanceUsed(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return JNI_FALSE;
+    return MdfHeaderIsStartDistanceUsed(header) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetStartDistance(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfHeaderGetStartDistance(header));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderSetStartDistance(
+    JNIEnv* env, jobject obj, jlong headerPtr, jdouble distance) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header != nullptr) {
+        MdfHeaderSetStartDistance(header, static_cast<double>(distance));
+    }
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetMetaData(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfHeaderGetMetaData(header)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetAttachments(
+    JNIEnv* env, jobject obj, jlong headerPtr, jlongArray jattachments) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    if (jattachments == nullptr) {
+        return static_cast<jlong>(MdfHeaderGetAttachments(header, nullptr));
+    }
+    size_t count = MdfHeaderGetAttachments(header, nullptr);
+    std::vector<void*> ptrs(count);
+    MdfHeaderGetAttachments(header, ptrs.data());
+    jsize len = static_cast<jsize>(count);
+    std::vector<jlong> jlongs(len);
+    for (jsize i = 0; i < len; i++) {
+        jlongs[i] = ptr_to_jlong(ptrs[i]);
+    }
+    env->SetLongArrayRegion(jattachments, 0, len, jlongs.data());
+    return static_cast<jlong>(count);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetFileHistorys(
+    JNIEnv* env, jobject obj, jlong headerPtr, jlongArray jfileHistorys) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    if (jfileHistorys == nullptr) {
+        return static_cast<jlong>(MdfHeaderGetFileHistorys(header, nullptr));
+    }
+    size_t count = MdfHeaderGetFileHistorys(header, nullptr);
+    std::vector<void*> ptrs(count);
+    MdfHeaderGetFileHistorys(header, ptrs.data());
+    jsize len = static_cast<jsize>(count);
+    std::vector<jlong> jlongs(len);
+    for (jsize i = 0; i < len; i++) {
+        jlongs[i] = ptr_to_jlong(ptrs[i]);
+    }
+    env->SetLongArrayRegion(jfileHistorys, 0, len, jlongs.data());
+    return static_cast<jlong>(count);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderGetEvents(
+    JNIEnv* env, jobject obj, jlong headerPtr, jlongArray jevents) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    if (jevents == nullptr) {
+        return static_cast<jlong>(MdfHeaderGetEvents(header, nullptr));
+    }
+    size_t count = MdfHeaderGetEvents(header, nullptr);
+    std::vector<void*> ptrs(count);
+    MdfHeaderGetEvents(header, ptrs.data());
+    jsize len = static_cast<jsize>(count);
+    std::vector<jlong> jlongs(len);
+    for (jsize i = 0; i < len; i++) {
+        jlongs[i] = ptr_to_jlong(ptrs[i]);
+    }
+    env->SetLongArrayRegion(jevents, 0, len, jlongs.data());
+    return static_cast<jlong>(count);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderCreateMetaData(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    return ptr_to_jlong(MdfHeaderCreateMetaData(header));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderCreateAttachment(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    return ptr_to_jlong(MdfHeaderCreateAttachment(header));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfHeaderCreateEvent(
+    JNIEnv* env, jobject obj, jlong headerPtr) {
+    void* header = ptr_from_jlong<void>(headerPtr);
+    if (header == nullptr) return 0;
+    return ptr_to_jlong(MdfHeaderCreateEvent(header));
+}
+
+/* ========================================================================
+ * NEW: MdfDataGroup additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetIndex(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return static_cast<jlong>(MdfDataGroupGetIndex(group));
+}
+
+extern "C" JNI_EXPORT jbyte JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetRecordIdSize(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return static_cast<jbyte>(MdfDataGroupGetRecordIdSize(group));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetMetaData(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfDataGroupGetMetaData(group)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetChannelGroupByName(
+    JNIEnv* env, jobject obj, jlong groupPtr, jstring jname) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr || jname == nullptr) return 0;
+    const char* name = env->GetStringUTFChars(jname, nullptr);
+    if (name == nullptr) return 0;
+    void* result = MdfDataGroupGetChannelGroupByName(group, name);
+    env->ReleaseStringUTFChars(jname, name);
+    return ptr_to_jlong(result);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupGetChannelGroupByRecordId(
+    JNIEnv* env, jobject obj, jlong groupPtr, jlong recordId) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return ptr_to_jlong(MdfDataGroupGetChannelGroupByRecordId(group,
+        static_cast<uint64_t>(recordId)));
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupIsRead(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return JNI_FALSE;
+    return MdfDataGroupIsRead(group) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupCreateMetaData(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return ptr_to_jlong(MdfDataGroupCreateMetaData(group));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfDataGroupFindParentChannelGroup(
+    JNIEnv* env, jobject obj, jlong groupPtr, jlong channelPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (group == nullptr || channel == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfDataGroupFindParentChannelGroup(group, channel)));
+}
+
+/* ========================================================================
+ * NEW: MdfChannelGroup additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetIndex(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return static_cast<jlong>(MdfChannelGroupGetIndex(group));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetRecordId(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return static_cast<jlong>(MdfChannelGroupGetRecordId(group));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetDescription(
+    JNIEnv* env, jobject obj, jlong groupPtr, jbyteArray jdesc) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    if (jdesc == nullptr) {
+        return static_cast<jlong>(MdfChannelGroupGetDescription(group, nullptr));
+    }
+    size_t len = MdfChannelGroupGetDescription(group, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfChannelGroupGetDescription(group, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, jdesc);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupSetDescription(
+    JNIEnv* env, jobject obj, jlong groupPtr, jstring jdesc) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr || jdesc == nullptr) return;
+    const char* desc = env->GetStringUTFChars(jdesc, nullptr);
+    if (desc == nullptr) return;
+    MdfChannelGroupSetDescription(group, desc);
+    env->ReleaseStringUTFChars(jdesc, desc);
+}
+
+extern "C" JNI_EXPORT jshort JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetFlags(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return static_cast<jshort>(MdfChannelGroupGetFlags(group));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupSetFlags(
+    JNIEnv* env, jobject obj, jlong groupPtr, jshort flags) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group != nullptr) {
+        MdfChannelGroupSetFlags(group, static_cast<uint16_t>(flags));
+    }
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupGetMetaData(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfChannelGroupGetMetaData(group)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupCreateMetaData(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return ptr_to_jlong(MdfChannelGroupCreateMetaData(group));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGroupCreateSourceInformation(
+    JNIEnv* env, jobject obj, jlong groupPtr) {
+    void* group = ptr_from_jlong<void>(groupPtr);
+    if (group == nullptr) return 0;
+    return ptr_to_jlong(MdfChannelGroupCreateSourceInformation(group));
+}
+
+/* ========================================================================
+ * NEW: MdfChannel additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetIndex(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return static_cast<jlong>(MdfChannelGetIndex(channel));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetDisplayName(
+    JNIEnv* env, jobject obj, jlong channelPtr, jbyteArray jname) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    if (jname == nullptr) {
+        return static_cast<jlong>(MdfChannelGetDisplayName(channel, nullptr));
+    }
+    size_t len = MdfChannelGetDisplayName(channel, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfChannelGetDisplayName(channel, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, jname);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetDisplayName(
+    JNIEnv* env, jobject obj, jlong channelPtr, jstring jname) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr || jname == nullptr) return;
+    const char* name = env->GetStringUTFChars(jname, nullptr);
+    if (name == nullptr) return;
+    MdfChannelSetDisplayName(channel, name);
+    env->ReleaseStringUTFChars(jname, name);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetDescription(
+    JNIEnv* env, jobject obj, jlong channelPtr, jbyteArray jdesc) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    if (jdesc == nullptr) {
+        return static_cast<jlong>(MdfChannelGetDescription(channel, nullptr));
+    }
+    size_t len = MdfChannelGetDescription(channel, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfChannelGetDescription(channel, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, jdesc);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetDescription(
+    JNIEnv* env, jobject obj, jlong channelPtr, jstring jdesc) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr || jdesc == nullptr) return;
+    const char* desc = env->GetStringUTFChars(jdesc, nullptr);
+    if (desc == nullptr) return;
+    MdfChannelSetDescription(channel, desc);
+    env->ReleaseStringUTFChars(jdesc, desc);
+}
+
+extern "C" JNI_EXPORT jint JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetFlags(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return static_cast<jint>(MdfChannelGetFlags(channel));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetFlags(
+    JNIEnv* env, jobject obj, jlong channelPtr, jint flags) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel != nullptr) {
+        MdfChannelSetFlags(channel, static_cast<uint32_t>(flags));
+    }
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelIsPrecisionUsed(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return JNI_FALSE;
+    return MdfChannelIsPrecisionUsed(channel) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jbyte JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetPrecision(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return static_cast<jbyte>(MdfChannelGetPrecision(channel));
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelIsRangeUsed(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return JNI_FALSE;
+    return MdfChannelIsRangeUsed(channel) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetRangeMin(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfChannelGetRangeMin(channel));
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetRangeMax(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfChannelGetRangeMax(channel));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetRange(
+    JNIEnv* env, jobject obj, jlong channelPtr, jdouble min, jdouble max) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel != nullptr) {
+        MdfChannelSetRange(channel, static_cast<double>(min), static_cast<double>(max));
+    }
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelIsLimitUsed(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return JNI_FALSE;
+    return MdfChannelIsLimitUsed(channel) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetLimitMin(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfChannelGetLimitMin(channel));
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetLimitMax(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfChannelGetLimitMax(channel));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetLimit(
+    JNIEnv* env, jobject obj, jlong channelPtr, jdouble min, jdouble max) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel != nullptr) {
+        MdfChannelSetLimit(channel, static_cast<double>(min), static_cast<double>(max));
+    }
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelIsExtLimitUsed(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return JNI_FALSE;
+    return MdfChannelIsExtLimitUsed(channel) ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetExtLimitMin(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfChannelGetExtLimitMin(channel));
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetExtLimitMax(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfChannelGetExtLimitMax(channel));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetExtLimit(
+    JNIEnv* env, jobject obj, jlong channelPtr, jdouble min, jdouble max) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel != nullptr) {
+        MdfChannelSetExtLimit(channel, static_cast<double>(min), static_cast<double>(max));
+    }
+}
+
+extern "C" JNI_EXPORT jdouble JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetSamplingRate(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0.0;
+    return static_cast<jdouble>(MdfChannelGetSamplingRate(channel));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetVlsdRecordId(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return static_cast<jlong>(MdfChannelGetVlsdRecordId(channel));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetVlsdRecordId(
+    JNIEnv* env, jobject obj, jlong channelPtr, jlong recordId) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel != nullptr) {
+        MdfChannelSetVlsdRecordId(channel, static_cast<uint64_t>(recordId));
+    }
+}
+
+extern "C" JNI_EXPORT jshort JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetBitOffset(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return static_cast<jshort>(MdfChannelGetBitOffset(channel));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetBitOffset(
+    JNIEnv* env, jobject obj, jlong channelPtr, jshort bits) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel != nullptr) {
+        MdfChannelSetBitOffset(channel, static_cast<uint16_t>(bits));
+    }
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetMetaData(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfChannelGetMetaData(channel)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetSourceInformation(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfChannelGetSourceInformation(channel)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetChannelConversion(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfChannelGetChannelConversion(channel)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetChannelArray(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfChannelGetChannelArray(channel)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelGetChannelCompositions(
+    JNIEnv* env, jobject obj, jlong channelPtr, jlongArray jchannels) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    if (jchannels == nullptr) {
+        return static_cast<jlong>(MdfChannelGetChannelCompositions(channel, nullptr));
+    }
+    size_t count = MdfChannelGetChannelCompositions(channel, nullptr);
+    std::vector<void*> ptrs(count);
+    MdfChannelGetChannelCompositions(channel, ptrs.data());
+    jsize len = static_cast<jsize>(count);
+    std::vector<jlong> jlongs(len);
+    for (jsize i = 0; i < len; i++) {
+        jlongs[i] = ptr_to_jlong(ptrs[i]);
+    }
+    env->SetLongArrayRegion(jchannels, 0, len, jlongs.data());
+    return static_cast<jlong>(count);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelCreateSourceInformation(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(MdfChannelCreateSourceInformation(channel));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelCreateChannelConversion(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(MdfChannelCreateChannelConversion(channel));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelCreateChannelArray(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(MdfChannelCreateChannelArray(channel));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelCreateChannelComposition(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(MdfChannelCreateChannelComposition(channel));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelCreateMetaData(
+    JNIEnv* env, jobject obj, jlong channelPtr) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr) return 0;
+    return ptr_to_jlong(MdfChannelCreateMetaData(channel));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelSetChannelValueAsArray(
+    JNIEnv* env, jobject obj, jlong channelPtr, jbyteArray jvalue,
+    jint valid, jlong arrayIndex) {
+    void* channel = ptr_from_jlong<void>(channelPtr);
+    if (channel == nullptr || jvalue == nullptr) return;
+    jsize len = env->GetArrayLength(jvalue);
+    if (len <= 0) return;
+    std::vector<uint8_t> buf(static_cast<size_t>(len));
+    env->GetByteArrayRegion(jvalue, 0, len, reinterpret_cast<jbyte*>(buf.data()));
+    MdfChannelSetChannelValueAsArray(channel, buf.data(), static_cast<size_t>(len),
+        valid != 0, static_cast<uint64_t>(arrayIndex));
+}
+
+/* ========================================================================
+ * NEW: MdfChannelObserver additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverCreateForChannelGroup(
+    JNIEnv* env, jobject obj, jlong dgPtr, jlong cgPtr, jlongArray jobservers) {
+    void* dg = ptr_from_jlong<void>(dgPtr);
+    void* cg = ptr_from_jlong<void>(cgPtr);
+    if (dg == nullptr || cg == nullptr) return 0;
+    if (jobservers == nullptr) {
+        return static_cast<jlong>(MdfChannelObserverCreateForChannelGroup(dg, cg, nullptr));
+    }
+    size_t count = MdfChannelObserverCreateForChannelGroup(dg, cg, nullptr);
+    std::vector<void*> ptrs(count);
+    MdfChannelObserverCreateForChannelGroup(dg, cg, ptrs.data());
+    jsize len = static_cast<jsize>(count);
+    std::vector<jlong> jlongs(len);
+    for (jsize i = 0; i < len; i++) {
+        jlongs[i] = ptr_to_jlong(ptrs[i]);
+    }
+    env->SetLongArrayRegion(jobservers, 0, len, jlongs.data());
+    return static_cast<jlong>(count);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetUnit(
+    JNIEnv* env, jobject obj, jlong observerPtr, jbyteArray junit) {
+    void* observer = ptr_from_jlong<void>(observerPtr);
+    if (observer == nullptr) return 0;
+    if (junit == nullptr) {
+        return static_cast<jlong>(MdfChannelObserverGetUnit(observer, nullptr));
+    }
+    size_t len = MdfChannelObserverGetUnit(observer, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfChannelObserverGetUnit(observer, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, junit);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannel(
+    JNIEnv* env, jobject obj, jlong observerPtr) {
+    void* observer = ptr_from_jlong<void>(observerPtr);
+    if (observer == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfChannelObserverGetChannel(observer)));
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsString(
+    JNIEnv* env, jobject obj, jlong observerPtr, jlong sample,
+    jbyteArray jvalue, jlongArray jsz) {
+    void* observer = ptr_from_jlong<void>(observerPtr);
+    if (observer == nullptr) return JNI_FALSE;
+    if (jvalue == nullptr || jsz == nullptr) {
+        size_t sz = 0;
+        bool valid = MdfChannelObserverGetChannelValueAsString(observer,
+            static_cast<uint64_t>(sample), nullptr, sz);
+        if (jsz != nullptr) {
+            jlong szResult[] = {static_cast<jlong>(sz)};
+            env->SetLongArrayRegion(jsz, 0, 1, szResult);
+        }
+        return valid ? JNI_TRUE : JNI_FALSE;
+    }
+    size_t sz = 256;
+    std::vector<char> buf(sz);
+    bool valid = MdfChannelObserverGetChannelValueAsString(observer,
+        static_cast<uint64_t>(sample), buf.data(), sz);
+    if (valid && sz > 0) {
+        env->SetByteArrayRegion(jvalue, 0, static_cast<jsize>(sz),
+            reinterpret_cast<const jbyte*>(buf.data()));
+    }
+    jlong szResult[] = {static_cast<jlong>(sz)};
+    env->SetLongArrayRegion(jsz, 0, 1, szResult);
+    return valid ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetChannelValueAsArray(
+    JNIEnv* env, jobject obj, jlong observerPtr, jlong sample,
+    jbyteArray jvalue, jlongArray jsz) {
+    void* observer = ptr_from_jlong<void>(observerPtr);
+    if (observer == nullptr) return JNI_FALSE;
+    size_t sz = 0;
+    if (jvalue == nullptr) {
+        bool valid = MdfChannelObserverGetChannelValueAsArray(observer,
+            static_cast<uint64_t>(sample), nullptr, sz);
+        if (jsz != nullptr) {
+            jlong szResult[] = {static_cast<jlong>(sz)};
+            env->SetLongArrayRegion(jsz, 0, 1, szResult);
+        }
+        return valid ? JNI_TRUE : JNI_FALSE;
+    }
+    sz = static_cast<size_t>(env->GetArrayLength(jvalue));
+    std::vector<uint8_t> buf(sz);
+    bool valid = MdfChannelObserverGetChannelValueAsArray(observer,
+        static_cast<uint64_t>(sample), buf.data(), sz);
+    if (valid) {
+        env->SetByteArrayRegion(jvalue, 0, static_cast<jsize>(sz),
+            reinterpret_cast<const jbyte*>(buf.data()));
+    }
+    if (jsz != nullptr) {
+        jlong szResult[] = {static_cast<jlong>(sz)};
+        env->SetLongArrayRegion(jsz, 0, 1, szResult);
+    }
+    return valid ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsString(
+    JNIEnv* env, jobject obj, jlong observerPtr, jlong sample,
+    jbyteArray jvalue, jlongArray jsz) {
+    void* observer = ptr_from_jlong<void>(observerPtr);
+    if (observer == nullptr) return JNI_FALSE;
+    size_t sz = 0;
+    if (jvalue == nullptr) {
+        bool valid = MdfChannelObserverGetEngValueAsString(observer,
+            static_cast<uint64_t>(sample), nullptr, sz);
+        if (jsz != nullptr) {
+            jlong szResult[] = {static_cast<jlong>(sz)};
+            env->SetLongArrayRegion(jsz, 0, 1, szResult);
+        }
+        return valid ? JNI_TRUE : JNI_FALSE;
+    }
+    sz = 256;
+    std::vector<char> buf(sz);
+    bool valid = MdfChannelObserverGetEngValueAsString(observer,
+        static_cast<uint64_t>(sample), buf.data(), sz);
+    if (valid && sz > 0) {
+        env->SetByteArrayRegion(jvalue, 0, static_cast<jsize>(sz),
+            reinterpret_cast<const jbyte*>(buf.data()));
+    }
+    if (jsz != nullptr) {
+        jlong szResult[] = {static_cast<jlong>(sz)};
+        env->SetLongArrayRegion(jsz, 0, 1, szResult);
+    }
+    return valid ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C" JNI_EXPORT jboolean JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfChannelObserverGetEngValueAsArray(
+    JNIEnv* env, jobject obj, jlong observerPtr, jlong sample,
+    jbyteArray jvalue, jlongArray jsz) {
+    void* observer = ptr_from_jlong<void>(observerPtr);
+    if (observer == nullptr) return JNI_FALSE;
+    size_t sz = 0;
+    if (jvalue == nullptr) {
+        bool valid = MdfChannelObserverGetEngValueAsArray(observer,
+            static_cast<uint64_t>(sample), nullptr, sz);
+        if (jsz != nullptr) {
+            jlong szResult[] = {static_cast<jlong>(sz)};
+            env->SetLongArrayRegion(jsz, 0, 1, szResult);
+        }
+        return valid ? JNI_TRUE : JNI_FALSE;
+    }
+    sz = static_cast<size_t>(env->GetArrayLength(jvalue));
+    std::vector<uint8_t> buf(sz);
+    bool valid = MdfChannelObserverGetEngValueAsArray(observer,
+        static_cast<uint64_t>(sample), buf.data(), sz);
+    if (valid) {
+        env->SetByteArrayRegion(jvalue, 0, static_cast<jsize>(sz),
+            reinterpret_cast<const jbyte*>(buf.data()));
+    }
+    if (jsz != nullptr) {
+        jlong szResult[] = {static_cast<jlong>(sz)};
+        env->SetLongArrayRegion(jsz, 0, 1, szResult);
+    }
+    return valid ? JNI_TRUE : JNI_FALSE;
+}
+
+/* ========================================================================
+ * NEW: MdfFileHistory additional JNI implementations
+ * ======================================================================== */
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetIndex(
+    JNIEnv* env, jobject obj, jlong fhPtr) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr) return 0;
+    return static_cast<jlong>(MdfFileHistoryGetIndex(fh));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetTime(
+    JNIEnv* env, jobject obj, jlong fhPtr) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr) return 0;
+    return static_cast<jlong>(MdfFileHistoryGetTime(fh));
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetTime(
+    JNIEnv* env, jobject obj, jlong fhPtr, jlong time) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh != nullptr) {
+        MdfFileHistorySetTime(fh, static_cast<uint64_t>(time));
+    }
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetMetaData(
+    JNIEnv* env, jobject obj, jlong fhPtr) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr) return 0;
+    return ptr_to_jlong(const_cast<void*>(MdfFileHistoryGetMetaData(fh)));
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetToolVendor(
+    JNIEnv* env, jobject obj, jlong fhPtr, jbyteArray jvendor) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr) return 0;
+    if (jvendor == nullptr) {
+        return static_cast<jlong>(MdfFileHistoryGetToolVendor(fh, nullptr));
+    }
+    size_t len = MdfFileHistoryGetToolVendor(fh, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfFileHistoryGetToolVendor(fh, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, jvendor);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetToolVendor(
+    JNIEnv* env, jobject obj, jlong fhPtr, jstring jvendor) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr || jvendor == nullptr) return;
+    const char* vendor = env->GetStringUTFChars(jvendor, nullptr);
+    if (vendor == nullptr) return;
+    MdfFileHistorySetToolVendor(fh, vendor);
+    env->ReleaseStringUTFChars(jvendor, vendor);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetToolVersion(
+    JNIEnv* env, jobject obj, jlong fhPtr, jbyteArray jversion) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr) return 0;
+    if (jversion == nullptr) {
+        return static_cast<jlong>(MdfFileHistoryGetToolVersion(fh, nullptr));
+    }
+    size_t len = MdfFileHistoryGetToolVersion(fh, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfFileHistoryGetToolVersion(fh, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, jversion);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetToolVersion(
+    JNIEnv* env, jobject obj, jlong fhPtr, jstring jversion) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr || jversion == nullptr) return;
+    const char* version = env->GetStringUTFChars(jversion, nullptr);
+    if (version == nullptr) return;
+    MdfFileHistorySetToolVersion(fh, version);
+    env->ReleaseStringUTFChars(jversion, version);
+}
+
+extern "C" JNI_EXPORT jlong JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistoryGetUserName(
+    JNIEnv* env, jobject obj, jlong fhPtr, jbyteArray juser) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr) return 0;
+    if (juser == nullptr) {
+        return static_cast<jlong>(MdfFileHistoryGetUserName(fh, nullptr));
+    }
+    size_t len = MdfFileHistoryGetUserName(fh, nullptr);
+    std::vector<char> buf(len + 1);
+    MdfFileHistoryGetUserName(fh, buf.data());
+    return copy_cstring_to_java(env, buf.data(), len, juser);
+}
+
+extern "C" JNI_EXPORT void JNICALL
+Java_com_huawei_behavior_simulation_datawatch_service_mdflib_jni_MdfLibraryNativeJNI_MdfFileHistorySetUserName(
+    JNIEnv* env, jobject obj, jlong fhPtr, jstring juser) {
+    void* fh = ptr_from_jlong<void>(fhPtr);
+    if (fh == nullptr || juser == nullptr) return;
+    const char* user = env->GetStringUTFChars(juser, nullptr);
+    if (user == nullptr) return;
+    MdfFileHistorySetUserName(fh, user);
+    env->ReleaseStringUTFChars(juser, user);
 }

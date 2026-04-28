@@ -118,7 +118,7 @@ events:
       The output was:
       0
       閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.11.2+c078802d4
-      鐢熸垚鍚姩鏃堕棿涓?2026/4/25 8:47:47銆?
+      鐢熸垚鍚姩鏃堕棿涓?2026/4/28 0:52:20銆?
       
       鑺傜偣 1 涓婄殑椤圭洰鈥淓:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\4.3.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj鈥?榛樿鐩爣)銆?
       PrepareForBuild:
@@ -147,7 +147,7 @@ events:
           0 涓鍛?
           0 涓敊璇?
       
-      宸茬敤鏃堕棿 00:00:01.06
+      宸茬敤鏃堕棿 00:00:01.14
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -2846,8 +2846,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-pqfpev"
-      binary: "E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-pqfpev"
+      source: "E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-deb2og"
+      binary: "E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-deb2og"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -2862,39 +2862,39 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-pqfpev'
+        Change Dir: 'E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-deb2og'
         
-        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_6bfa5.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_9c18a.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.11.2+c078802d4
-        鐢熸垚鍚姩鏃堕棿涓?2026/4/25 8:47:49銆?
+        鐢熸垚鍚姩鏃堕棿涓?2026/4/28 0:52:22銆?
         
-        鑺傜偣 1 涓婄殑椤圭洰鈥淓:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-pqfpev\\cmTC_6bfa5.vcxproj鈥?榛樿鐩爣)銆?
+        鑺傜偣 1 涓婄殑椤圭洰鈥淓:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-deb2og\\cmTC_9c18a.vcxproj鈥?榛樿鐩爣)銆?
         PrepareForBuild:
           宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
-          姝ｅ湪鍒涘缓鐩綍鈥淓:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-pqfpev\\Debug\\鈥濄€?
-          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_6bfa5.dir\\Debug\\cmTC_6bfa5.tlog\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥淓:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-deb2og\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_9c18a.dir\\Debug\\cmTC_9c18a.tlog\\鈥濄€?
         InitializeBuildStatus:
-          姝ｅ湪鍒涘缓鈥渃mTC_6bfa5.dir\\Debug\\cmTC_6bfa5.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
-          姝ｅ湪瀵光€渃mTC_6bfa5.dir\\Debug\\cmTC_6bfa5.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+          姝ｅ湪鍒涘缓鈥渃mTC_9c18a.dir\\Debug\\cmTC_9c18a.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_9c18a.dir\\Debug\\cmTC_9c18a.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
         ClCompile:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_6bfa5.dir\\Debug\\\\" /Fd"cmTC_6bfa5.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_9c18a.dir\\Debug\\\\" /Fd"cmTC_9c18a.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
           鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.41.34120 鐗?
           鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_6bfa5.dir\\Debug\\\\" /Fd"cmTC_6bfa5.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_9c18a.dir\\Debug\\\\" /Fd"cmTC_9c18a.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\link.exe /OUT:"E:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-pqfpev\\Debug\\cmTC_6bfa5.exe" /INCREMENTAL /ILK:"cmTC_6bfa5.dir\\Debug\\cmTC_6bfa5.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-pqfpev/Debug/cmTC_6bfa5.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-pqfpev/Debug/cmTC_6bfa5.lib" /MACHINE:X64  /machine:x64 cmTC_6bfa5.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_6bfa5.vcxproj -> E:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-pqfpev\\Debug\\cmTC_6bfa5.exe
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\link.exe /OUT:"E:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-deb2og\\Debug\\cmTC_9c18a.exe" /INCREMENTAL /ILK:"cmTC_9c18a.dir\\Debug\\cmTC_9c18a.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-deb2og/Debug/cmTC_9c18a.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"E:/project AI/mdflib_dill/build_native/jni/CMakeFiles/CMakeScratch/TryCompile-deb2og/Debug/cmTC_9c18a.lib" /MACHINE:X64  /machine:x64 cmTC_9c18a.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_9c18a.vcxproj -> E:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-deb2og\\Debug\\cmTC_9c18a.exe
         FinalizeBuildStatus:
-          姝ｅ湪鍒犻櫎鏂囦欢鈥渃mTC_6bfa5.dir\\Debug\\cmTC_6bfa5.tlog\\unsuccessfulbuild鈥濄€?
-          姝ｅ湪瀵光€渃mTC_6bfa5.dir\\Debug\\cmTC_6bfa5.tlog\\cmTC_6bfa5.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
-        宸插畬鎴愮敓鎴愰」鐩€淓:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-pqfpev\\cmTC_6bfa5.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
+          姝ｅ湪鍒犻櫎鏂囦欢鈥渃mTC_9c18a.dir\\Debug\\cmTC_9c18a.tlog\\unsuccessfulbuild鈥濄€?
+          姝ｅ湪瀵光€渃mTC_9c18a.dir\\Debug\\cmTC_9c18a.tlog\\cmTC_9c18a.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
+        宸插畬鎴愮敓鎴愰」鐩€淓:\\project AI\\mdflib_dill\\build_native\\jni\\CMakeFiles\\CMakeScratch\\TryCompile-deb2og\\cmTC_9c18a.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
         
         宸叉垚鍔熺敓鎴愩€?
             0 涓鍛?
             0 涓敊璇?
         
-        宸茬敤鏃堕棿 00:00:00.84
+        宸茬敤鏃堕棿 00:00:00.86
         
       exitCode: 0
   -

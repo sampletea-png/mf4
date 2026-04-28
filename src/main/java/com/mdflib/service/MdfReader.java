@@ -1,6 +1,6 @@
 package com.mdflib.service;
 
-import com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
+import com.huawei.behavior.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
 import com.mdflib.model.*;
 
 import java.io.Closeable;

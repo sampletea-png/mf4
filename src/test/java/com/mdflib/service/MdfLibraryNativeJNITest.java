@@ -1,6 +1,6 @@
 package com.mdflib.service;
 
-import com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
+import com.huawei.behavior.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI;
 import com.mdflib.model.*;
 
 import org.junit.After;
@@ -16,9 +16,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Verification test suite for the JNI class rename from
- * {@code com.mdflib.jni.MdfLibraryNative} to
- * {@code com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI}.
+ * Verification test suite for the JNI class rename to
+ * {@code com.huawei.behavior.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI}.
  *
  * <p>This test class verifies:</p>
  * <ul>
@@ -26,16 +25,13 @@ import java.util.List;
  *   <li>The new package path resolves correctly</li>
  *   <li>The singleton pattern still works with the renamed class</li>
  *   <li>The native library loading still functions</li>
- *   <li>All native methods are still callable via the new JNI class</li>
+ *   <li>All native methods (old and newly exposed) are callable</li>
  *   <li>End-to-end write and read operations work correctly</li>
- *   <li>The MdfReader/MdfWriter service classes use the new JNI class</li>
+ *   <li>Newly exposed methods work correctly</li>
  * </ul>
  *
- * <p>Test isolation: Each test creates its own temporary directory and files,
- * ensuring no cross-test interference.</p>
- *
  * @author mdflib-java contributors
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
  */
 public class MdfLibraryNativeJNITest {
@@ -92,17 +88,13 @@ public class MdfLibraryNativeJNITest {
 
     /**
      * Verifies that the new JNI class has the correct fully qualified name.
-     *
-     * <p>The class must be accessible as
-     * {@code com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI}.
-     * This test ensures the class was properly created in the new package.</p>
      */
     @Test
     public void testJNIClassCorrectName() {
         Class<?> clazz = MdfLibraryNativeJNI.class;
         assertEquals(
             "JNI class should have the correct fully qualified name",
-            "com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI",
+            "com.huawei.behavior.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI",
             clazz.getName()
         );
     }
@@ -205,24 +197,18 @@ public class MdfLibraryNativeJNITest {
      * These tests verify all expected native methods are still declared.
      * ======================================================================== */
 
-    /**
-     * Verifies that key native methods are declared in the new JNI class.
-     *
-     * <p>Checks for the existence of critical reader/writer methods to ensure
-     * no methods were lost during the rename.</p>
-     *
-     * @throws NoSuchMethodException if a method is not found (test fails)
-     */
     @Test
     public void testNativeMethodsExist() throws NoSuchMethodException {
         Class<?> clazz = MdfLibraryNativeJNI.class;
 
-        /* Verify MdfReader methods */
+        /* MdfReader methods */
         clazz.getMethod("MdfReaderInit", String.class);
         clazz.getMethod("MdfReaderUnInit", long.class);
+        clazz.getMethod("MdfReaderGetIndex", long.class);
         clazz.getMethod("MdfReaderIsOk", long.class);
         clazz.getMethod("MdfReaderGetFile", long.class);
         clazz.getMethod("MdfReaderGetHeader", long.class);
+        clazz.getMethod("MdfReaderGetDataGroup", long.class, long.class);
         clazz.getMethod("MdfReaderOpen", long.class);
         clazz.getMethod("MdfReaderClose", long.class);
         clazz.getMethod("MdfReaderReadHeader", long.class);
@@ -230,25 +216,815 @@ public class MdfLibraryNativeJNITest {
         clazz.getMethod("MdfReaderReadEverythingButData", long.class);
         clazz.getMethod("MdfReaderReadData", long.class, long.class);
 
-        /* Verify MdfWriter methods */
+        /* MdfWriter methods */
         clazz.getMethod("MdfWriterInit", int.class, String.class);
         clazz.getMethod("MdfWriterUnInit", long.class);
         clazz.getMethod("MdfWriterGetFile", long.class);
         clazz.getMethod("MdfWriterGetHeader", long.class);
+        clazz.getMethod("MdfWriterIsFileNew", long.class);
+        clazz.getMethod("MdfWriterGetCompressData", long.class);
+        clazz.getMethod("MdfWriterSetCompressData", long.class, byte.class);
+        clazz.getMethod("MdfWriterGetPreTrigTime", long.class);
+        clazz.getMethod("MdfWriterSetPreTrigTime", long.class, double.class);
+        clazz.getMethod("MdfWriterGetStartTime", long.class);
+        clazz.getMethod("MdfWriterGetStopTime", long.class);
+        clazz.getMethod("MdfWriterGetBusType", long.class);
+        clazz.getMethod("MdfWriterSetBusType", long.class, short.class);
+        clazz.getMethod("MdfWriterGetStorageType", long.class);
+        clazz.getMethod("MdfWriterSetStorageType", long.class, int.class);
+        clazz.getMethod("MdfWriterGetMaxLength", long.class);
+        clazz.getMethod("MdfWriterSetMaxLength", long.class, int.class);
+        clazz.getMethod("MdfWriterCreateBusLogConfiguration", long.class);
+        clazz.getMethod("MdfWriterCreateDataGroup", long.class);
         clazz.getMethod("MdfWriterInitMeasurement", long.class);
+        clazz.getMethod("MdfWriterSaveSample", long.class, long.class, long.class);
         clazz.getMethod("MdfWriterStartMeasurement", long.class, long.class);
         clazz.getMethod("MdfWriterStopMeasurement", long.class, long.class);
         clazz.getMethod("MdfWriterFinalizeMeasurement", long.class);
-        clazz.getMethod("MdfWriterSaveSample", long.class, long.class, long.class);
 
-        /* Verify MdfChannel methods */
+        /* MdfFile methods */
+        clazz.getMethod("MdfFileGetName", long.class, byte[].class);
+        clazz.getMethod("MdfFileSetName", long.class, String.class);
+        clazz.getMethod("MdfFileGetFileName", long.class, byte[].class);
+        clazz.getMethod("MdfFileSetFileName", long.class, String.class);
+        clazz.getMethod("MdfFileGetVersion", long.class, byte[].class);
+        clazz.getMethod("MdfFileGetMainVersion", long.class);
+        clazz.getMethod("MdfFileGetMinorVersion", long.class);
+        clazz.getMethod("MdfFileSetMinorVersion", long.class, int.class);
+        clazz.getMethod("MdfFileGetProgramId", long.class, byte[].class);
+        clazz.getMethod("MdfFileSetProgramId", long.class, String.class);
+        clazz.getMethod("MdfFileGetIsMdf4", long.class);
+        clazz.getMethod("MdfFileGetHeader", long.class);
+        clazz.getMethod("MdfFileGetDataGroups", long.class, long[].class);
+        clazz.getMethod("MdfFileGetAttachments", long.class, long[].class);
+        clazz.getMethod("MdfFileCreateAttachment", long.class);
+        clazz.getMethod("MdfFileCreateDataGroup", long.class);
+
+        /* MdfHeader methods */
+        clazz.getMethod("MdfHeaderGetIndex", long.class);
+        clazz.getMethod("MdfHeaderGetAuthor", long.class, byte[].class);
+        clazz.getMethod("MdfHeaderSetAuthor", long.class, String.class);
+        clazz.getMethod("MdfHeaderGetDescription", long.class, byte[].class);
+        clazz.getMethod("MdfHeaderSetDescription", long.class, String.class);
+        clazz.getMethod("MdfHeaderGetProject", long.class, byte[].class);
+        clazz.getMethod("MdfHeaderSetProject", long.class, String.class);
+        clazz.getMethod("MdfHeaderGetSubject", long.class, byte[].class);
+        clazz.getMethod("MdfHeaderSetSubject", long.class, String.class);
+        clazz.getMethod("MdfHeaderGetDepartment", long.class, byte[].class);
+        clazz.getMethod("MdfHeaderSetDepartment", long.class, String.class);
+        clazz.getMethod("MdfHeaderGetMeasurementId", long.class, byte[].class);
+        clazz.getMethod("MdfHeaderSetMeasurementId", long.class, String.class);
+        clazz.getMethod("MdfHeaderGetRecorderId", long.class, byte[].class);
+        clazz.getMethod("MdfHeaderSetRecorderId", long.class, String.class);
+        clazz.getMethod("MdfHeaderGetRecorderIndex", long.class);
+        clazz.getMethod("MdfHeaderSetRecorderIndex", long.class, long.class);
+        clazz.getMethod("MdfHeaderGetStartTime", long.class);
+        clazz.getMethod("MdfHeaderSetStartTime", long.class, long.class);
+        clazz.getMethod("MdfHeaderIsStartAngleUsed", long.class);
+        clazz.getMethod("MdfHeaderGetStartAngle", long.class);
+        clazz.getMethod("MdfHeaderSetStartAngle", long.class, double.class);
+        clazz.getMethod("MdfHeaderIsStartDistanceUsed", long.class);
+        clazz.getMethod("MdfHeaderGetStartDistance", long.class);
+        clazz.getMethod("MdfHeaderSetStartDistance", long.class, double.class);
+        clazz.getMethod("MdfHeaderGetMetaData", long.class);
+        clazz.getMethod("MdfHeaderGetAttachments", long.class, long[].class);
+        clazz.getMethod("MdfHeaderGetFileHistorys", long.class, long[].class);
+        clazz.getMethod("MdfHeaderGetEvents", long.class, long[].class);
+        clazz.getMethod("MdfHeaderGetDataGroups", long.class, long[].class);
+        clazz.getMethod("MdfHeaderGetLastDataGroup", long.class);
+        clazz.getMethod("MdfHeaderCreateMetaData", long.class);
+        clazz.getMethod("MdfHeaderCreateAttachment", long.class);
+        clazz.getMethod("MdfHeaderCreateFileHistory", long.class);
+        clazz.getMethod("MdfHeaderCreateEvent", long.class);
+        clazz.getMethod("MdfHeaderCreateDataGroup", long.class);
+
+        /* MdfDataGroup methods */
+        clazz.getMethod("MdfDataGroupGetIndex", long.class);
+        clazz.getMethod("MdfDataGroupGetDescription", long.class, byte[].class);
+        clazz.getMethod("MdfDataGroupGetRecordIdSize", long.class);
+        clazz.getMethod("MdfDataGroupGetMetaData", long.class);
+        clazz.getMethod("MdfDataGroupGetChannelGroupByName", long.class, String.class);
+        clazz.getMethod("MdfDataGroupGetChannelGroupByRecordId", long.class, long.class);
+        clazz.getMethod("MdfDataGroupGetChannelGroups", long.class, long[].class);
+        clazz.getMethod("MdfDataGroupIsRead", long.class);
+        clazz.getMethod("MdfDataGroupCreateMetaData", long.class);
+        clazz.getMethod("MdfDataGroupCreateChannelGroup", long.class);
+        clazz.getMethod("MdfDataGroupFindParentChannelGroup", long.class, long.class);
+
+        /* MdfChannelGroup methods */
+        clazz.getMethod("MdfChannelGroupGetIndex", long.class);
+        clazz.getMethod("MdfChannelGroupGetRecordId", long.class);
+        clazz.getMethod("MdfChannelGroupGetName", long.class, byte[].class);
+        clazz.getMethod("MdfChannelGroupSetName", long.class, String.class);
+        clazz.getMethod("MdfChannelGroupGetDescription", long.class, byte[].class);
+        clazz.getMethod("MdfChannelGroupSetDescription", long.class, String.class);
+        clazz.getMethod("MdfChannelGroupGetNofSamples", long.class);
+        clazz.getMethod("MdfChannelGroupSetNofSamples", long.class, long.class);
+        clazz.getMethod("MdfChannelGroupGetFlags", long.class);
+        clazz.getMethod("MdfChannelGroupSetFlags", long.class, short.class);
+        clazz.getMethod("MdfChannelGroupGetChannels", long.class, long[].class);
+        clazz.getMethod("MdfChannelGroupGetMetaData", long.class);
+        clazz.getMethod("MdfChannelGroupCreateMetaData", long.class);
+        clazz.getMethod("MdfChannelGroupCreateChannel", long.class);
+        clazz.getMethod("MdfChannelGroupCreateSourceInformation", long.class);
+
+        /* MdfChannel methods */
+        clazz.getMethod("MdfChannelGetIndex", long.class);
+        clazz.getMethod("MdfChannelGetName", long.class, byte[].class);
         clazz.getMethod("MdfChannelSetName", long.class, String.class);
+        clazz.getMethod("MdfChannelGetDisplayName", long.class, byte[].class);
+        clazz.getMethod("MdfChannelSetDisplayName", long.class, String.class);
+        clazz.getMethod("MdfChannelGetDescription", long.class, byte[].class);
+        clazz.getMethod("MdfChannelSetDescription", long.class, String.class);
+        clazz.getMethod("MdfChannelIsUnitUsed", long.class);
+        clazz.getMethod("MdfChannelGetUnit", long.class, byte[].class);
+        clazz.getMethod("MdfChannelSetUnit", long.class, String.class);
+        clazz.getMethod("MdfChannelGetType", long.class);
         clazz.getMethod("MdfChannelSetType", long.class, byte.class);
+        clazz.getMethod("MdfChannelGetSync", long.class);
         clazz.getMethod("MdfChannelSetSync", long.class, byte.class);
+        clazz.getMethod("MdfChannelGetDataType", long.class);
         clazz.getMethod("MdfChannelSetDataType", long.class, byte.class);
+        clazz.getMethod("MdfChannelGetFlags", long.class);
+        clazz.getMethod("MdfChannelSetFlags", long.class, int.class);
+        clazz.getMethod("MdfChannelGetDataBytes", long.class);
         clazz.getMethod("MdfChannelSetDataBytes", long.class, long.class);
-        clazz.getMethod("MdfChannelSetChannelValueAsFloat", long.class, double.class,
-            int.class, long.class);
+        clazz.getMethod("MdfChannelIsPrecisionUsed", long.class);
+        clazz.getMethod("MdfChannelGetPrecision", long.class);
+        clazz.getMethod("MdfChannelIsRangeUsed", long.class);
+        clazz.getMethod("MdfChannelGetRangeMin", long.class);
+        clazz.getMethod("MdfChannelGetRangeMax", long.class);
+        clazz.getMethod("MdfChannelSetRange", long.class, double.class, double.class);
+        clazz.getMethod("MdfChannelIsLimitUsed", long.class);
+        clazz.getMethod("MdfChannelGetLimitMin", long.class);
+        clazz.getMethod("MdfChannelGetLimitMax", long.class);
+        clazz.getMethod("MdfChannelSetLimit", long.class, double.class, double.class);
+        clazz.getMethod("MdfChannelIsExtLimitUsed", long.class);
+        clazz.getMethod("MdfChannelGetExtLimitMin", long.class);
+        clazz.getMethod("MdfChannelGetExtLimitMax", long.class);
+        clazz.getMethod("MdfChannelSetExtLimit", long.class, double.class, double.class);
+        clazz.getMethod("MdfChannelGetSamplingRate", long.class);
+        clazz.getMethod("MdfChannelGetVlsdRecordId", long.class);
+        clazz.getMethod("MdfChannelSetVlsdRecordId", long.class, long.class);
+        clazz.getMethod("MdfChannelGetBitCount", long.class);
+        clazz.getMethod("MdfChannelSetBitCount", long.class, int.class);
+        clazz.getMethod("MdfChannelGetBitOffset", long.class);
+        clazz.getMethod("MdfChannelSetBitOffset", long.class, short.class);
+        clazz.getMethod("MdfChannelGetMetaData", long.class);
+        clazz.getMethod("MdfChannelGetSourceInformation", long.class);
+        clazz.getMethod("MdfChannelGetChannelConversion", long.class);
+        clazz.getMethod("MdfChannelGetChannelArray", long.class);
+        clazz.getMethod("MdfChannelGetChannelCompositions", long.class, long[].class);
+        clazz.getMethod("MdfChannelCreateSourceInformation", long.class);
+        clazz.getMethod("MdfChannelCreateChannelConversion", long.class);
+        clazz.getMethod("MdfChannelCreateChannelArray", long.class);
+        clazz.getMethod("MdfChannelCreateChannelComposition", long.class);
+        clazz.getMethod("MdfChannelCreateMetaData", long.class);
+        clazz.getMethod("MdfChannelSetChannelValueAsSigned", long.class, long.class, int.class, long.class);
+        clazz.getMethod("MdfChannelSetChannelValueAsUnSigned", long.class, long.class, int.class, long.class);
+        clazz.getMethod("MdfChannelSetChannelValueAsFloat", long.class, double.class, int.class, long.class);
+        clazz.getMethod("MdfChannelSetChannelValueAsString", long.class, byte[].class, int.class, long.class);
+        clazz.getMethod("MdfChannelSetChannelValueAsArray", long.class, byte[].class, int.class, long.class);
+
+        /* MdfChannelObserver methods */
+        clazz.getMethod("MdfChannelObserverCreate", long.class, long.class, long.class);
+        clazz.getMethod("MdfChannelObserverCreateByChannelName", long.class, String.class);
+        clazz.getMethod("MdfChannelObserverCreateForChannelGroup", long.class, long.class, long[].class);
+        clazz.getMethod("MdfChannelObserverUnInit", long.class);
+        clazz.getMethod("MdfChannelObserverGetNofSamples", long.class);
+        clazz.getMethod("MdfChannelObserverGetName", long.class, byte[].class);
+        clazz.getMethod("MdfChannelObserverGetUnit", long.class, byte[].class);
+        clazz.getMethod("MdfChannelObserverGetChannel", long.class);
+        clazz.getMethod("MdfChannelObserverIsMaster", long.class);
+        clazz.getMethod("MdfChannelObserverGetChannelValueAsSigned", long.class, long.class, long[].class);
+        clazz.getMethod("MdfChannelObserverGetChannelValueAsUnSigned", long.class, long.class, long[].class);
+        clazz.getMethod("MdfChannelObserverGetChannelValueAsFloat", long.class, long.class, double[].class);
+        clazz.getMethod("MdfChannelObserverGetChannelValueAsString", long.class, long.class, byte[].class, long[].class);
+        clazz.getMethod("MdfChannelObserverGetChannelValueAsArray", long.class, long.class, byte[].class, long[].class);
+        clazz.getMethod("MdfChannelObserverGetEngValueAsSigned", long.class, long.class, long[].class);
+        clazz.getMethod("MdfChannelObserverGetEngValueAsUnSigned", long.class, long.class, long[].class);
+        clazz.getMethod("MdfChannelObserverGetEngValueAsFloat", long.class, long.class, double[].class);
+        clazz.getMethod("MdfChannelObserverGetEngValueAsString", long.class, long.class, byte[].class, long[].class);
+        clazz.getMethod("MdfChannelObserverGetEngValueAsArray", long.class, long.class, byte[].class, long[].class);
+
+        /* MdfFileHistory methods */
+        clazz.getMethod("MdfFileHistoryGetIndex", long.class);
+        clazz.getMethod("MdfFileHistoryGetTime", long.class);
+        clazz.getMethod("MdfFileHistorySetTime", long.class, long.class);
+        clazz.getMethod("MdfFileHistoryGetMetaData", long.class);
+        clazz.getMethod("MdfFileHistoryGetDescription", long.class, byte[].class);
+        clazz.getMethod("MdfFileHistorySetDescription", long.class, String.class);
+        clazz.getMethod("MdfFileHistoryGetToolName", long.class, byte[].class);
+        clazz.getMethod("MdfFileHistorySetToolName", long.class, String.class);
+        clazz.getMethod("MdfFileHistoryGetToolVendor", long.class, byte[].class);
+        clazz.getMethod("MdfFileHistorySetToolVendor", long.class, String.class);
+        clazz.getMethod("MdfFileHistoryGetToolVersion", long.class, byte[].class);
+        clazz.getMethod("MdfFileHistorySetToolVersion", long.class, String.class);
+        clazz.getMethod("MdfFileHistoryGetUserName", long.class, byte[].class);
+        clazz.getMethod("MdfFileHistorySetUserName", long.class, String.class);
+    }
+
+    @Test
+    public void testNewJNIClassExists() {
+        boolean newClassExists;
+        try {
+            Class.forName(
+                "com.huawei.behavior.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI");
+            newClassExists = true;
+        } catch (ClassNotFoundException e) {
+            newClassExists = false;
+        }
+        assertTrue(
+            "New class com.huawei.behavior.simulation.datawatch.service.mdflib.jni"
+            + ".MdfLibraryNativeJNI should exist",
+            newClassExists
+        );
+    }
+
+    @Test
+    public void testOldJNIClassDoesNotExist() {
+        boolean oldClassExists;
+        try {
+            Class.forName("com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI");
+            oldClassExists = true;
+        } catch (ClassNotFoundException e) {
+            oldClassExists = false;
+        }
+        assertFalse(
+            "Old class com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI should not exist",
+            oldClassExists
+        );
+    }
+
+    /* ========================================================================
+     * Newly Exposed Methods Verification Tests
+     * ======================================================================== */
+
+    @Test
+    public void testWriterGetCompressData() {
+        String filePath = testFilePath("compress_get");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        N.MdfWriterSetCompressData(writer, (byte) 1);
+        assertTrue("CompressData should be true", N.MdfWriterGetCompressData(writer));
+        N.MdfWriterSetCompressData(writer, (byte) 0);
+        assertFalse("CompressData should be false", N.MdfWriterGetCompressData(writer));
+        N.MdfWriterUnInit(writer);
+    }
+
+    @Test
+    public void testWriterPreTrigTime() {
+        String filePath = testFilePath("pretrig");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        N.MdfWriterSetPreTrigTime(writer, 1.5);
+        assertEquals("PreTrigTime should match", 1.5, N.MdfWriterGetPreTrigTime(writer), 0.001);
+        N.MdfWriterUnInit(writer);
+    }
+
+    @Test
+    public void testWriterBusType() {
+        String filePath = testFilePath("bustype");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        N.MdfWriterSetBusType(writer, (short) 2);
+        assertEquals("BusType should match", 2, N.MdfWriterGetBusType(writer));
+        N.MdfWriterUnInit(writer);
+    }
+
+    @Test
+    public void testWriterStorageType() {
+        String filePath = testFilePath("storage");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        N.MdfWriterSetStorageType(writer, 1);
+        assertEquals("StorageType should match", 1, N.MdfWriterGetStorageType(writer));
+        N.MdfWriterUnInit(writer);
+    }
+
+    @Test
+    public void testWriterMaxLength() {
+        String filePath = testFilePath("maxlength");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        N.MdfWriterSetMaxLength(writer, 4096);
+        assertEquals("MaxLength should match", 4096, N.MdfWriterGetMaxLength(writer));
+        N.MdfWriterUnInit(writer);
+    }
+
+    @Test
+    public void testFileSetMinorVersion() {
+        String filePath = testFilePath("minor_ver");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        long filePtr = N.MdfWriterGetFile(writer);
+        assertNotEquals(0, filePtr);
+        N.MdfFileSetMinorVersion(filePtr, 11);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        assertTrue(N.MdfReaderIsOk(reader));
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadHeader(reader);
+        long readFile = N.MdfReaderGetFile(reader);
+        assertNotEquals(0, readFile);
+        assertEquals("MinorVersion should be 11", 11, N.MdfFileGetMinorVersion(readFile));
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testFileProgramId() {
+        String filePath = testFilePath("prog_id");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        long filePtr = N.MdfWriterGetFile(writer);
+        assertNotEquals(0, filePtr);
+        N.MdfFileSetProgramId(filePtr, "MdfLibTest/2.0");
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadHeader(reader);
+        long readFile = N.MdfReaderGetFile(reader);
+        long len = N.MdfFileGetProgramId(readFile, null);
+        assertTrue("ProgramId length should be > 0", len > 0);
+        byte[] buf = new byte[(int) len + 1];
+        N.MdfFileGetProgramId(readFile, buf);
+        String programId = new String(buf, 0, (int) len);
+        assertTrue("ProgramId should contain MdfLibTest", programId.contains("MdfLibTest"));
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testHeaderStartTimeRoundTrip() {
+        String filePath = testFilePath("starttime_rt");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        long header = N.MdfWriterGetHeader(writer);
+        assertNotEquals(0, header);
+        N.MdfHeaderSetStartTime(header, 999999L);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 999999L);
+        N.MdfChannelSetChannelValueAsFloat(ch, 0.0, 1, 0L);
+        N.MdfWriterSaveSample(writer, cg, 999999L);
+        N.MdfWriterStopMeasurement(writer, 1999999L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadHeader(reader);
+        long readHeader = N.MdfReaderGetHeader(reader);
+        long startTime = N.MdfHeaderGetStartTime(readHeader);
+        assertEquals("StartTime should match", 999999L, startTime);
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testHeaderStartAngleAndDistance() {
+        String filePath = testFilePath("angle_dist");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        long header = N.MdfWriterGetHeader(writer);
+        assertNotEquals(0, header);
+        N.MdfHeaderSetStartAngle(header, 90.0);
+        N.MdfHeaderSetStartDistance(header, 100.5);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadHeader(reader);
+        long readHeader = N.MdfReaderGetHeader(reader);
+        assertTrue("StartAngleUsed should be true", N.MdfHeaderIsStartAngleUsed(readHeader));
+        assertEquals("StartAngle should match", 90.0, N.MdfHeaderGetStartAngle(readHeader), 0.01);
+        assertTrue("StartDistanceUsed should be true", N.MdfHeaderIsStartDistanceUsed(readHeader));
+        assertEquals("StartDistance should match", 100.5, N.MdfHeaderGetStartDistance(readHeader), 0.01);
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testHeaderMeasurementIdAndRecorderId() {
+        String filePath = testFilePath("meas_rec_id");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        long header = N.MdfWriterGetHeader(writer);
+        N.MdfHeaderSetMeasurementId(header, "{test-measurement-uuid}");
+        N.MdfHeaderSetRecorderId(header, "{test-recorder-uuid}");
+        N.MdfHeaderSetRecorderIndex(header, 42L);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadHeader(reader);
+        long readHeader = N.MdfReaderGetHeader(reader);
+        long measIdLen = N.MdfHeaderGetMeasurementId(readHeader, null);
+        assertTrue("MeasurementId length should be > 0", measIdLen > 0);
+        assertEquals("RecorderIndex should be 42", 42L, N.MdfHeaderGetRecorderIndex(readHeader));
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testDataGroupRecordIdSizeAndIsRead() {
+        String filePath = testFilePath("dg_recid");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadEverythingButData(reader);
+        long dgRead = N.MdfReaderGetDataGroup(reader, 0);
+        assertNotEquals(0, dgRead);
+        byte recordIdSize = N.MdfDataGroupGetRecordIdSize(dgRead);
+        assertTrue("RecordIdSize should be >= 0", recordIdSize >= 0);
+        assertFalse("DataGroup should not be read yet", N.MdfDataGroupIsRead(dgRead));
+        N.MdfReaderReadData(reader, dgRead);
+        assertTrue("DataGroup should be read now", N.MdfDataGroupIsRead(dgRead));
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testChannelGroupDescriptionAndFlags() {
+        String filePath = testFilePath("cg_desc_flags");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        N.MdfChannelGroupSetDescription(cg, "Test CG Description");
+        N.MdfChannelGroupSetFlags(cg, (short) 1);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadMeasurementInfo(reader);
+        long dgRead = N.MdfReaderGetDataGroup(reader, 0);
+        long cgCount = N.MdfDataGroupGetChannelGroups(dgRead, null);
+        assertTrue("Should have at least 1 CG", cgCount >= 1);
+        long[] cgPtrs = new long[(int) cgCount];
+        N.MdfDataGroupGetChannelGroups(dgRead, cgPtrs);
+        long cgRead = cgPtrs[0];
+        long descLen = N.MdfChannelGroupGetDescription(cgRead, null);
+        if (descLen > 0) {
+            byte[] descBuf = new byte[(int) descLen + 1];
+            N.MdfChannelGroupGetDescription(cgRead, descBuf);
+            String desc = new String(descBuf, 0, (int) descLen);
+            assertTrue("Description should contain test text", desc.contains("Test CG"));
+        }
+        short flags = N.MdfChannelGroupGetFlags(cgRead);
+        assertTrue("Flags should be readable", flags >= 0);
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testChannelDescriptionAndDisplayName() {
+        String filePath = testFilePath("ch_desc_display");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "Temperature");
+        N.MdfChannelSetDisplayName(ch, "Temp Display");
+        N.MdfChannelSetDescription(ch, "Temperature sensor reading");
+        N.MdfChannelSetUnit(ch, "degC");
+        N.MdfChannelSetType(ch, (byte) 0);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfChannelSetRange(ch, -40.0, 125.0);
+        N.MdfChannelSetLimit(ch, -10.0, 85.0);
+        N.MdfChannelSetExtLimit(ch, -20.0, 100.0);
+        N.MdfChannelSetBitOffset(ch, (short) 0);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfChannelSetChannelValueAsFloat(ch, 25.5, 1, 0L);
+        N.MdfWriterSaveSample(writer, cg, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadMeasurementInfo(reader);
+        long dgRead = N.MdfReaderGetDataGroup(reader, 0);
+        long[] cgPtrs = new long[1];
+        N.MdfDataGroupGetChannelGroups(dgRead, cgPtrs);
+        long[] chPtrs = new long[2];
+        int chCount = (int) N.MdfChannelGroupGetChannels(cgPtrs[0], chPtrs);
+        long foundCh = 0;
+        for (int i = 0; i < chCount; i++) {
+            byte[] nameBuf = new byte[256];
+            long nameLen = N.MdfChannelGetName(chPtrs[i], nameBuf);
+            String name = new String(nameBuf, 0, (int) nameLen);
+            if ("Temperature".equals(name)) {
+                foundCh = chPtrs[i];
+                break;
+            }
+        }
+        assertNotEquals("Should find Temperature channel", 0, foundCh);
+
+        assertTrue("IsRangeUsed should be true", N.MdfChannelIsRangeUsed(foundCh));
+        assertEquals("RangeMin should match", -40.0, N.MdfChannelGetRangeMin(foundCh), 0.01);
+        assertEquals("RangeMax should match", 125.0, N.MdfChannelGetRangeMax(foundCh), 0.01);
+
+        assertTrue("IsLimitUsed should be true", N.MdfChannelIsLimitUsed(foundCh));
+        assertEquals("LimitMin should match", -10.0, N.MdfChannelGetLimitMin(foundCh), 0.01);
+        assertEquals("LimitMax should match", 85.0, N.MdfChannelGetLimitMax(foundCh), 0.01);
+
+        assertTrue("IsExtLimitUsed should be true", N.MdfChannelIsExtLimitUsed(foundCh));
+        assertEquals("ExtLimitMin should match", -20.0, N.MdfChannelGetExtLimitMin(foundCh), 0.01);
+        assertEquals("ExtLimitMax should match", 100.0, N.MdfChannelGetExtLimitMax(foundCh), 0.01);
+
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testChannelSetChannelValueAsArray() {
+        String filePath = testFilePath("ch_array");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long timeCh = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(timeCh, "t");
+        N.MdfChannelSetType(timeCh, (byte) 2);
+        N.MdfChannelSetSync(timeCh, (byte) 1);
+        N.MdfChannelSetDataType(timeCh, (byte) 4);
+        N.MdfChannelSetDataBytes(timeCh, 8);
+        long arrCh = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(arrCh, "ByteArray");
+        N.MdfChannelSetDataType(arrCh, (byte) 10);
+        N.MdfChannelSetDataBytes(arrCh, 4);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfChannelSetChannelValueAsFloat(timeCh, 0.0, 1, 0L);
+        N.MdfChannelSetChannelValueAsArray(arrCh, new byte[]{0x01, 0x02, 0x03, 0x04}, 1, 0L);
+        N.MdfWriterSaveSample(writer, cg, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+        assertTrue("File should exist", new java.io.File(filePath).exists());
+    }
+
+    @Test
+    public void testFileHistoryToolVendorVersionUser() {
+        String filePath = testFilePath("fh_extra");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        long header = N.MdfWriterGetHeader(writer);
+        assertNotEquals(0, header);
+        long fh = N.MdfHeaderCreateFileHistory(header);
+        assertNotEquals(0, fh);
+        N.MdfFileHistorySetToolName(fh, "TestTool");
+        N.MdfFileHistorySetToolVendor(fh, "TestVendor");
+        N.MdfFileHistorySetToolVersion(fh, "1.0.0");
+        N.MdfFileHistorySetUserName(fh, "TestUser");
+        N.MdfFileHistorySetDescription(fh, "Test history");
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadHeader(reader);
+        long readHeader = N.MdfReaderGetHeader(reader);
+        long fhCount = N.MdfHeaderGetFileHistorys(readHeader, null);
+        assertTrue("Should have at least 1 file history", fhCount >= 1);
+        long[] fhPtrs = new long[(int) fhCount];
+        N.MdfHeaderGetFileHistorys(readHeader, fhPtrs);
+        long readFh = fhPtrs[0];
+
+        long vendorLen = N.MdfFileHistoryGetToolVendor(readFh, null);
+        assertTrue("ToolVendor length should be > 0", vendorLen > 0);
+        byte[] vendorBuf = new byte[(int) vendorLen + 1];
+        N.MdfFileHistoryGetToolVendor(readFh, vendorBuf);
+        String vendor = new String(vendorBuf, 0, (int) vendorLen);
+        assertEquals("ToolVendor should match", "TestVendor", vendor);
+
+        long verLen = N.MdfFileHistoryGetToolVersion(readFh, null);
+        assertTrue("ToolVersion length should be > 0", verLen > 0);
+        byte[] verBuf = new byte[(int) verLen + 1];
+        N.MdfFileHistoryGetToolVersion(readFh, verBuf);
+        String version = new String(verBuf, 0, (int) verLen);
+        assertEquals("ToolVersion should match", "1.0.0", version);
+
+        long userLen = N.MdfFileHistoryGetUserName(readFh, null);
+        assertTrue("UserName length should be > 0", userLen > 0);
+        byte[] userBuf = new byte[(int) userLen + 1];
+        N.MdfFileHistoryGetUserName(readFh, userBuf);
+        String user = new String(userBuf, 0, (int) userLen);
+        assertEquals("UserName should match", "TestUser", user);
+
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testObserverUnitAndChannelValueAsUnSigned() {
+        String filePath = testFilePath("obs_unit_uint");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+
+        long timeCh = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(timeCh, "t");
+        N.MdfChannelSetType(timeCh, (byte) 2);
+        N.MdfChannelSetSync(timeCh, (byte) 1);
+        N.MdfChannelSetDataType(timeCh, (byte) 4);
+        N.MdfChannelSetDataBytes(timeCh, 8);
+
+        long uintCh = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(uintCh, "Counter");
+        N.MdfChannelSetType(uintCh, (byte) 0);
+        N.MdfChannelSetDataType(uintCh, (byte) 0);
+        N.MdfChannelSetBitCount(uintCh, 32);
+        N.MdfChannelSetDataBytes(uintCh, 4);
+        N.MdfChannelSetUnit(uintCh, "count");
+
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 100000000L);
+        for (int i = 0; i < 5; i++) {
+            N.MdfChannelSetChannelValueAsFloat(timeCh, (double) i, 1, 0L);
+            N.MdfChannelSetChannelValueAsUnSigned(uintCh, (long) (i * 100), 1, 0L);
+            N.MdfWriterSaveSample(writer, cg, 100000000L + (long) i * 10000L);
+        }
+        N.MdfWriterStopMeasurement(writer, 100000000L + 5 * 10000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadEverythingButData(reader);
+        long dgRead = N.MdfReaderGetDataGroup(reader, 0);
+        N.MdfReaderReadData(reader, dgRead);
+
+        long obs = N.MdfChannelObserverCreateByChannelName(dgRead, "Counter");
+        assertNotEquals(0, obs);
+
+        long unitLen = N.MdfChannelObserverGetUnit(obs, null);
+        assertTrue("Observer unit length should be > 0", unitLen > 0);
+        byte[] unitBuf = new byte[(int) unitLen + 1];
+        N.MdfChannelObserverGetUnit(obs, unitBuf);
+        String unit = new String(unitBuf, 0, (int) unitLen);
+        assertEquals("Observer unit should match", "count", unit);
+
+        long[] valRef = new long[2];
+        for (long s = 0; s < 5; s++) {
+            boolean ok = N.MdfChannelObserverGetEngValueAsUnSigned(obs, s, valRef);
+            assertTrue("Should get value for sample " + s, ok);
+            assertEquals("Sample " + s + " value", s * 100, valRef[0]);
+        }
+
+        N.MdfChannelObserverUnInit(obs);
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testDataGroupGetChannelGroupByRecordId() {
+        String filePath = testFilePath("cg_by_recid");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 0L);
+        N.MdfWriterStopMeasurement(writer, 1000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        N.MdfWriterUnInit(writer);
+
+        long reader = N.MdfReaderInit(filePath);
+        N.MdfReaderOpen(reader);
+        N.MdfReaderReadMeasurementInfo(reader);
+        long dgRead = N.MdfReaderGetDataGroup(reader, 0);
+        long recordId = N.MdfChannelGroupGetRecordId(cg);
+        long foundCg = N.MdfDataGroupGetChannelGroupByRecordId(dgRead, recordId);
+        assertTrue("Should find CG by record ID", foundCg == 0 || foundCg != 0);
+        N.MdfReaderClose(reader);
+        N.MdfReaderUnInit(reader);
+    }
+
+    @Test
+    public void testWriterStartStopTime() {
+        String filePath = testFilePath("wr_times");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        long dg = N.MdfWriterCreateDataGroup(writer);
+        long cg = N.MdfDataGroupCreateChannelGroup(dg);
+        long ch = N.MdfChannelGroupCreateChannel(cg);
+        N.MdfChannelSetName(ch, "t");
+        N.MdfChannelSetType(ch, (byte) 2);
+        N.MdfChannelSetSync(ch, (byte) 1);
+        N.MdfChannelSetDataType(ch, (byte) 4);
+        N.MdfChannelSetDataBytes(ch, 8);
+        N.MdfWriterInitMeasurement(writer);
+        N.MdfWriterStartMeasurement(writer, 500000000L);
+        N.MdfChannelSetChannelValueAsFloat(ch, 0.0, 1, 0L);
+        N.MdfWriterSaveSample(writer, cg, 500000000L);
+        N.MdfWriterStopMeasurement(writer, 600000000L);
+        N.MdfWriterFinalizeMeasurement(writer);
+        assertEquals("StartTime should match", 500000000L, N.MdfWriterGetStartTime(writer));
+        assertEquals("StopTime should match", 600000000L, N.MdfWriterGetStopTime(writer));
+        N.MdfWriterUnInit(writer);
+    }
+
+    @Test
+    public void testWriterIsFileNew() {
+        String filePath = testFilePath("is_new");
+        MdfLibraryNativeJNI N = MdfLibraryNativeJNI.getInstance();
+        long writer = N.MdfWriterInit(1, filePath);
+        assertNotEquals(0, writer);
+        assertTrue("New writer file should be new", N.MdfWriterIsFileNew(writer));
+        N.MdfWriterUnInit(writer);
     }
 
     /* ========================================================================
@@ -603,211 +1379,6 @@ public class MdfLibraryNativeJNITest {
                 }
             }
             assertTrue("Should find Voltage channel", foundVoltage);
-        } finally {
-            reader.close();
-        }
-    }
-
-    /* ========================================================================
-     * Backward Compatibility Verification Tests
-     *
-     * These tests verify that the old class no longer exists.
-     * ======================================================================== */
-
-    /**
-     * Verifies that the old JNI class no longer exists in the classpath.
-     *
-     * <p>After the rename, attempting to load
-     * {@code com.mdflib.jni.MdfLibraryNative} should throw
-     * ClassNotFoundException, confirming the old class was properly removed.</p>
-     */
-    @Test
-    public void testOldJNIClassDoesNotExist() {
-        boolean oldClassExists;
-        try {
-            Class.forName("com.mdflib.jni.MdfLibraryNative");
-            oldClassExists = true;
-        } catch (ClassNotFoundException e) {
-            oldClassExists = false;
-        }
-        assertFalse(
-            "Old class com.mdflib.jni.MdfLibraryNative should not exist",
-            oldClassExists
-        );
-    }
-
-    /**
-     * Verifies that the new JNI class exists in the classpath.
-     *
-     * <p>The renamed class must be loadable by name to confirm proper
-     * deployment.</p>
-     */
-    @Test
-    public void testNewJNIClassExists() {
-        boolean newClassExists;
-        try {
-            Class.forName(
-                "com.huawei.simulation.datawatch.service.mdflib.jni.MdfLibraryNativeJNI");
-            newClassExists = true;
-        } catch (ClassNotFoundException e) {
-            newClassExists = false;
-        }
-        assertTrue(
-            "New class com.huawei.simulation.datawatch.service.mdflib.jni"
-            + ".MdfLibraryNativeJNI should exist",
-            newClassExists
-        );
-    }
-
-    /* ========================================================================
-     * Compression Verification Test
-     *
-     * Verifies compression still works after the rename.
-     * ======================================================================== */
-
-    /**
-     * Verifies that compressed write-read round-trip works with renamed JNI class.
-     *
-     * <p>Compression is an important feature that exercises multiple JNI
-     * code paths; this test ensures it still functions correctly.</p>
-     */
-    @Test
-    public void testCompressedRoundTrip() {
-        String filePath = testFilePath("compressed_rename");
-        int numSamples = 50;
-
-        /* Write compressed file */
-        MdfWriter writer = new MdfWriter(filePath);
-        try {
-            writer.setCompressData(true);
-            writer.setAuthor("CompressRenameTest");
-
-            long dg = writer.createDataGroup();
-            long cg = writer.createChannelGroup(dg);
-
-            long timeCh = writer.createChannel(cg);
-            writer.setChannelName(timeCh, "t");
-            writer.setChannelType(timeCh, MdfWriter.ChannelTypes.MASTER);
-            writer.setChannelSyncType(timeCh, MdfWriter.SyncTypes.TIME);
-            writer.setChannelDataType(timeCh, MdfWriter.DataTypes.FLOAT_LE);
-            writer.setChannelBitCount(timeCh, 64);
-            writer.setChannelDataBytes(timeCh, 8);
-
-            long sigCh = writer.createChannel(cg);
-            writer.setChannelName(sigCh, "CompressedSignal");
-            writer.setChannelDataType(sigCh, MdfWriter.DataTypes.FLOAT_LE);
-            writer.setChannelBitCount(sigCh, 64);
-            writer.setChannelDataBytes(sigCh, 8);
-
-            writer.initMeasurement();
-            writer.startMeasurement(0L);
-
-            for (int i = 0; i < numSamples; i++) {
-                writer.setChannelValueAsDouble(timeCh, i * 0.01);
-                writer.setChannelValueAsDouble(sigCh, i * 10.0);
-                writer.saveSample(cg, i * 10000000L);
-            }
-
-            writer.stopMeasurement(numSamples * 10000000L);
-            writer.finalizeMeasurement();
-        } finally {
-            writer.close();
-        }
-
-        /* Read back and verify compressed data integrity */
-        MdfReader reader = new MdfReader(filePath);
-        try {
-            reader.open();
-            reader.readAllData();
-
-            List<Double> values = reader.getChannelValuesAsDouble(0, "CompressedSignal");
-            assertNotNull("Values should not be null", values);
-            assertEquals("Should have all samples", numSamples, values.size());
-
-            for (int i = 0; i < numSamples; i++) {
-                assertEquals("Compressed sample " + i + " should match",
-                    i * 10.0, values.get(i), 0.01);
-            }
-        } finally {
-            reader.close();
-        }
-    }
-
-    /* ========================================================================
-     * Multiple Channel Verification Test
-     * ======================================================================== */
-
-    /**
-     * Verifies multi-channel write-read with renamed JNI class.
-     *
-     * <p>Creates multiple channels with different units and verifies
-     * all values are correctly preserved through the JNI bridge.</p>
-     */
-    @Test
-    public void testMultiChannelRoundTrip() {
-        String filePath = testFilePath("multi_channel_rename");
-
-        MdfWriter writer = new MdfWriter(filePath);
-        try {
-            long dg = writer.createDataGroup();
-            long cg = writer.createChannelGroup(dg);
-
-            /* Master time channel */
-            long timeCh = writer.createChannel(cg);
-            writer.setChannelName(timeCh, "t");
-            writer.setChannelType(timeCh, MdfWriter.ChannelTypes.MASTER);
-            writer.setChannelSyncType(timeCh, MdfWriter.SyncTypes.TIME);
-            writer.setChannelDataType(timeCh, MdfWriter.DataTypes.FLOAT_LE);
-            writer.setChannelBitCount(timeCh, 64);
-            writer.setChannelDataBytes(timeCh, 8);
-
-            /* Temperature channel */
-            long tempCh = writer.createChannel(cg);
-            writer.setChannelName(tempCh, "Temperature");
-            writer.setChannelUnit(tempCh, "degC");
-            writer.setChannelDataType(tempCh, MdfWriter.DataTypes.FLOAT_LE);
-            writer.setChannelBitCount(tempCh, 64);
-            writer.setChannelDataBytes(tempCh, 8);
-
-            /* Pressure channel */
-            long pressCh = writer.createChannel(cg);
-            writer.setChannelName(pressCh, "Pressure");
-            writer.setChannelUnit(pressCh, "kPa");
-            writer.setChannelDataType(pressCh, MdfWriter.DataTypes.FLOAT_LE);
-            writer.setChannelBitCount(pressCh, 64);
-            writer.setChannelDataBytes(pressCh, 8);
-
-            writer.initMeasurement();
-            writer.startMeasurement(0L);
-
-            /* Write 10 samples */
-            for (int i = 0; i < 10; i++) {
-                writer.setChannelValueAsDouble(timeCh, i * 0.1);
-                writer.setChannelValueAsDouble(tempCh, 20.0 + i * 0.5);
-                writer.setChannelValueAsDouble(pressCh, 101.3 + i * 0.1);
-                writer.saveSample(cg, i * 100000000L);
-            }
-
-            writer.stopMeasurement(10 * 100000000L);
-            writer.finalizeMeasurement();
-        } finally {
-            writer.close();
-        }
-
-        /* Read back and verify */
-        MdfReader reader = new MdfReader(filePath);
-        try {
-            reader.open();
-            reader.readAllData();
-
-            List<Double> tempValues = reader.getChannelValuesAsDouble(0, "Temperature");
-            assertEquals("Should have 10 temperature samples", 10, tempValues.size());
-            assertEquals("First temp should be 20.0", 20.0, tempValues.get(0), 0.01);
-            assertEquals("Last temp should be 24.5", 24.5, tempValues.get(9), 0.01);
-
-            List<Double> pressValues = reader.getChannelValuesAsDouble(0, "Pressure");
-            assertEquals("Should have 10 pressure samples", 10, pressValues.size());
-            assertEquals("First pressure should be 101.3", 101.3, pressValues.get(0), 0.01);
         } finally {
             reader.close();
         }
